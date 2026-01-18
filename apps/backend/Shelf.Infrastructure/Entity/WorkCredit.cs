@@ -12,12 +12,11 @@ public class WorkCredit
     [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
     public int Id { get; set; }
 
-    public Guid WorkId { get; set; }
-    public Work? Work { get; set; }
+    public required Guid WorkId { get; set; }
+    public Work Work { get; set; } = default!;
 
-    public Guid PartyId { get; set; }
-    public Party? Party { get; set; }
-
+    public required Guid PartyId { get; set; }
+    public Party Party { get; set; } = default!;
     public int CreditRoleId { get; set; }
     public CreditRole? CreditRole { get; set; }
 

@@ -12,8 +12,8 @@ public class Work
 {
     public Guid Id { get; set; } = Guid.CreateVersion7();
 
-    public Guid UploaderId { get; set; }
-    public User? Uploader { get; set; }
+    public required string UploaderId { get; set; }
+    public User Uploader { get; set; } = default!;
 
     public required string Title { get; set; } = string.Empty;
     public string Description { get; set; } = string.Empty;

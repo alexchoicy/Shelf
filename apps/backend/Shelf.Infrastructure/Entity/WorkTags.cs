@@ -16,14 +16,14 @@ public class WorkTag
     public required int TagId { get; set; }
     public Tag Tag { get; set; } = default!;
 
-    public int AssertedByWorkSourceId { get; set; }
-    public WorkSource AssertedByWorkSource { get; set; } = default!;
+    public int? AssertedByWorkSourceId { get; set; }
+    public WorkSource? AssertedByWorkSource { get; set; }
 
-    public string AssertedByUserId { get; set; }
-    public User AssertedByUser { get; set; } = default!;
+    public string? AssertedByUserId { get; set; }
+    public User? AssertedByUser { get; set; }
 
-    public int AssertedByModelId { get; set; }
-    public Model AssertedByModel { get; set; } = default!;
+    public int? AssertedByModelId { get; set; }
+    public Model? AssertedByModel { get; set; }
 
     public float Confidence { get; set; } = 0.0f;
 

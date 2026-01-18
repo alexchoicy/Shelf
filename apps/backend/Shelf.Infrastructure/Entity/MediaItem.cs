@@ -11,7 +11,7 @@ public class MediaItem
     public required Guid FileId { get; set; }
     public File File { get; set; } = default!;
 
-    public Guid WorkId { get; set; }
+    public required Guid WorkId { get; set; }
     public Work? Work { get; set; }
 
     public string Description { get; set; } = string.Empty;
