@@ -1,0 +1,5 @@
+<Solution>
+  <Project Path="Shelf.Api/Shelf.Api.csproj" />
+  <Project Path="Shelf.Core/Shelf.Core.csproj" />
+  <Project Path="Shelf.Infrastructure/Shelf.Infrastructure.csproj" />
+</Solution>
