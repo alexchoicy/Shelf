@@ -1,0 +1,5 @@
+# Backend thingy
+[Bb]in/
+[Oo]bj/
+
+AppDbContextModelSnapshot.cs
