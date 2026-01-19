@@ -16,7 +16,9 @@ public class File
 
     // i dunno this little guy may be useful later
     // defualt the files is the Guid as the filename
-    public required FileLocation Location { get; set; } = FileLocation.SYSTEM;
+    public FileLocation Location { get; set; } = FileLocation.SYSTEM;
+
+    // Relative path from the storage root
     public string? Path { get; set; }
 
     public required long FileSize { get; set; }
