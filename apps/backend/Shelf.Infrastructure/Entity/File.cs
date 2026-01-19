@@ -1,5 +1,6 @@
 using System.ComponentModel.DataAnnotations.Schema;
 using Microsoft.EntityFrameworkCore;
+using Shelf.Infrastructure.Enum;
 
 namespace Shelf.Infrastructure.Entity;
 
@@ -10,6 +11,13 @@ public class File
     public Guid Id { get; set; } = Guid.CreateVersion7();
 
     public required string Hash { get; set; }
+
+    //TODO phash
+
+    // i dunno this little guy may be useful later
+    // defualt the files is the Guid as the filename
+    public required FileLocation Location { get; set; } = FileLocation.SYSTEM;
+    public string? Path { get; set; }
 
     public required long FileSize { get; set; }
     public required string MimeType { get; set; }

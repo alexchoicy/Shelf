@@ -13,7 +13,7 @@ public class AppDbContext : IdentityDbContext<User>
     public DbSet<CreditRole> CreditRoles { get; set; }
     public DbSet<Entity.File> Files { get; set; }
     public DbSet<MediaItem> MediaItems { get; set; }
-    public DbSet<Model> Models { get; set; }
+    public DbSet<AIModel> AIModels { get; set; }
     public DbSet<Party> Parties { get; set; }
     public DbSet<PartyAccount> PartyAccounts { get; set; }
     public DbSet<PartyAlias> PartyAliases { get; set; }

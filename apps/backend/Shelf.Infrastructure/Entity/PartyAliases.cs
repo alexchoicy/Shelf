@@ -14,7 +14,7 @@ public class PartyAlias
     public int Id { get; set; }
 
     public required Guid PartyId { get; set; }
-    public Party Party { get; set; } = default!;
+    public Party? Party { get; set; }
 
     public required string Name { get; set; }
     private string _normalizedName = string.Empty;

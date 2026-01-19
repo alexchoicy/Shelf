@@ -15,10 +15,10 @@ public class PartyAccount
     public int Id { get; set; }
 
     public required Guid PartyId { get; set; }
-    public Party Party { get; set; } = default!;
+    public Party? Party { get; set; }
 
     public required int SourceId { get; set; }
-    public Source Source { get; set; } = default!;
+    public Source? Source { get; set; }
 
     public string ExternalId { get; set; } = string.Empty;
     public string Url { get; set; } = string.Empty;

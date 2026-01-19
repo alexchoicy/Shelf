@@ -6,9 +6,9 @@ using Shelf.Infrastructure.Enum;
 
 namespace Shelf.Infrastructure.Entity;
 
-[Table("Models")]
+[Table("AIModels")]
 [PrimaryKey(nameof(Id))]
-public class Model
+public class AIModel
 {
     [Key]
     [DatabaseGenerated(DatabaseGeneratedOption.Identity)]

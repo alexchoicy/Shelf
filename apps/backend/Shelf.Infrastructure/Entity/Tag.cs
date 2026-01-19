@@ -26,8 +26,8 @@ public class Tag
 
     public string Namespace { get; set; } = string.Empty;
 
-    public int SourceId { get; set; }
-    public Source Source { get; set; } = default!;
+    public required int SourceId { get; set; }
+    public Source? Source { get; set; }
 
     public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
     public DateTime UpdatedAt { get; set; } = DateTime.UtcNow;

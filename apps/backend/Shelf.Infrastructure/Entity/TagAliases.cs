@@ -14,8 +14,8 @@ public class TagAlias
     [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
     public int Id { get; set; }
 
-    public int TagId { get; set; }
-    public Tag Tag { get; set; } = default!;
+    public required int TagId { get; set; }
+    public Tag? Tag { get; set; }
 
     public required string Name { get; set; }
     private string _normalizedName = string.Empty;

@@ -9,7 +9,7 @@ namespace Shelf.Infrastructure.Entity;
 public class MediaItem
 {
     public required Guid FileId { get; set; }
-    public File File { get; set; } = default!;
+    public File? File { get; set; }
 
     public required Guid WorkId { get; set; }
     public Work? Work { get; set; }

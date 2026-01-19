@@ -23,7 +23,7 @@ public class WorkTag
     public User? AssertedByUser { get; set; }
 
     public int? AssertedByModelId { get; set; }
-    public Model? AssertedByModel { get; set; }
+    public AIModel? AssertedByModel { get; set; }
 
     public float Confidence { get; set; } = 0.0f;
 
