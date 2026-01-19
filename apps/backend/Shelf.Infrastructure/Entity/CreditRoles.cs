@@ -21,4 +21,6 @@ public class CreditRole
         set => _normalizedName = value.Normalize();
     }
     public string Description { get; set; } = string.Empty;
+
+    public ICollection<WorkCredit> WorkCredits { get; set; } = new List<WorkCredit>();
 }

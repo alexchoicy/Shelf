@@ -29,4 +29,9 @@ public class Party
     public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
     public DateTime UpdatedAt { get; set; } = DateTime.UtcNow;
     public DateTime? DeletedAt { get; set; } = null;
+
+    public ICollection<PartyAlias> Aliases { get; set; } = new List<PartyAlias>();
+    public ICollection<PartyAccount> Accounts { get; set; } = new List<PartyAccount>();
+    public ICollection<WorkCredit> WorkCredits { get; set; } = new List<WorkCredit>();
+
 }

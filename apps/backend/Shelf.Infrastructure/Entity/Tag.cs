@@ -32,4 +32,7 @@ public class Tag
     public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
     public DateTime UpdatedAt { get; set; } = DateTime.UtcNow;
     public DateTime? DeletedAt { get; set; } = null;
+
+    public ICollection<TagAlias> Aliases { get; set; } = new List<TagAlias>();
+    public ICollection<WorkTag> WorkTags { get; set; } = new List<WorkTag>();
 }

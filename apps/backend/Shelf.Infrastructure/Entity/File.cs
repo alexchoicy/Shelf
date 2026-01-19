@@ -23,4 +23,8 @@ public class File
     public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
     public DateTime UpdatedAt { get; set; } = DateTime.UtcNow;
     public DateTime? DeletedAt { get; set; } = null;
+
+    public ICollection<MediaItem> MediaItems { get; set; } = new List<MediaItem>();
+    public ICollection<Work> CoverWorks { get; set; } = new List<Work>();
+    public ICollection<Party> CoverParties { get; set; } = new List<Party>();
 }

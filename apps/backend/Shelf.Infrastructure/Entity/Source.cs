@@ -26,4 +26,8 @@ public class Source
     public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
     public DateTime UpdatedAt { get; set; } = DateTime.UtcNow;
     public DateTime? DeletedAt { get; set; } = null;
+
+    public ICollection<PartyAccount> PartyAccounts { get; set; } = new List<PartyAccount>();
+    public ICollection<Tag> Tags { get; set; } = new List<Tag>();
+    public ICollection<WorkSource> WorkSources { get; set; } = new List<WorkSource>();
 }

@@ -34,4 +34,11 @@ public class Work
     public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
     public DateTime UpdatedAt { get; set; } = DateTime.UtcNow;
     public DateTime? DeletedAt { get; set; } = null;
+
+
+    public ICollection<MediaItem> MediaItems { get; set; } = new List<MediaItem>();
+    public ICollection<SeriesWorks> SeriesWorks { get; set; } = new List<SeriesWorks>();
+    public ICollection<WorkTag> WorkTags { get; set; } = new List<WorkTag>();
+    public ICollection<WorkCredit> WorkCredits { get; set; } = new List<WorkCredit>();
+    public ICollection<WorkSource> WorkSources { get; set; } = new List<WorkSource>();
 }

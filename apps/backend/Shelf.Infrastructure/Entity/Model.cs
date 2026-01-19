@@ -25,4 +25,6 @@ public class Model
     public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
     public DateTime UpdatedAt { get; set; } = DateTime.UtcNow;
     public DateTime? DeletedAt { get; set; } = null;
+
+    public ICollection<WorkTag> AssertedWorkTags { get; set; } = new List<WorkTag>();
 }
