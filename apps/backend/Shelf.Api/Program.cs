@@ -14,11 +14,6 @@ builder.Services.AddOpenApi();
 
 builder.Services.AddControllers();
 
-builder.Services.AddAuthorization(options =>
-{
-    options.FallbackPolicy = options.DefaultPolicy;
-});
-
 builder.Services.AddCors(options =>
 {
     options.AddDefaultPolicy(p => p
@@ -77,11 +72,15 @@ if (app.Environment.IsDevelopment())
 {
     app.MapOpenApi();
 
+    app.UseSwaggerUI(options =>
+    {
+        options.SwaggerEndpoint("/openapi/v1.json", "v1");
+    });
+
     using (var scope = app.Services.CreateScope())
     {
         var dbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
         dbContext.Database.Migrate();
-
     }
 }
 
