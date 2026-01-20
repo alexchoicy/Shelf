@@ -1,10 +1,13 @@
 using System.Text;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Shelf.Infrastructure;
 using Shelf.Infrastructure.Data;
+using Shelf.Infrastructure.Data.Seed;
+using Shelf.Infrastructure.Entity;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -64,9 +67,9 @@ builder.Services.AddAuthentication(options =>
 });
 
 
-builder.Services.AddInfrastructure(builder.Configuration);
+builder.Services.AddInfrastructure(builder.Configuration, builder.Environment);
 
-var app = builder.Build();
+WebApplication app = builder.Build();
 
 if (app.Environment.IsDevelopment())
 {
@@ -81,6 +84,9 @@ if (app.Environment.IsDevelopment())
     {
         var dbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
         dbContext.Database.Migrate();
+
+        UserManager<User> userManager = scope.ServiceProvider.GetRequiredService<UserManager<User>>();
+        await UserSeed.SeedAsync(userManager, builder.Configuration);
     }
 }
 
