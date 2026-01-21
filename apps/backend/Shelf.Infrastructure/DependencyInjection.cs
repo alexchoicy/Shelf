@@ -23,7 +23,7 @@ public static class DependencyInjection
                 configuration["Database:ConnectionString"]);
         });
 
-        services.AddIdentity<User, IdentityRole>(opt =>
+        services.AddIdentityCore<User>(opt =>
         {
             if (environment.IsDevelopment())
             {
@@ -33,8 +33,8 @@ public static class DependencyInjection
                 opt.Password.RequireUppercase = false;
                 opt.Password.RequiredLength = 4;
             }
-        })
-            .AddEntityFrameworkStores<AppDbContext>();
+        }).AddRoles<IdentityRole>()
+        .AddEntityFrameworkStores<AppDbContext>();
 
         services.AddScoped<IAuthService, AuthService>();
         services.AddScoped<ITokenService, TokenService>();

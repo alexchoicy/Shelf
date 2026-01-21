@@ -29,40 +29,35 @@ builder.Services.AddCors(options =>
 
 builder.Services.AddAuthentication(options =>
 {
-    options.DefaultScheme = "Smart";
-    options.DefaultChallengeScheme = "Smart";
-}).AddPolicyScheme("Smart", "Bearer or Cookie", options =>
-{
-    options.ForwardDefaultSelector = context =>
-    {
-        var auth = context.Request.Headers.Authorization.ToString();
-        if (!string.IsNullOrEmpty(auth) && auth.StartsWith("Bearer ", StringComparison.OrdinalIgnoreCase))
-            return JwtBearerDefaults.AuthenticationScheme;
-
-        return CookieAuthenticationDefaults.AuthenticationScheme;
-    };
-}).AddCookie(CookieAuthenticationDefaults.AuthenticationScheme, options =>
-{
-    options.Cookie.Name = "AlexCoolShelfAppToken";
-    options.Cookie.HttpOnly = true;
-    options.Cookie.SameSite = SameSiteMode.Lax;
-    options.Cookie.SecurePolicy =
-        builder.Environment.IsDevelopment()
-            ? CookieSecurePolicy.SameAsRequest
-            : CookieSecurePolicy.Always;
+    options.DefaultScheme =
+    options.DefaultAuthenticateScheme =
+    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
 }).AddJwtBearer(JwtBearerDefaults.AuthenticationScheme, options =>
 {
     options.TokenValidationParameters = new TokenValidationParameters
     {
         ValidateIssuer = true,
         ValidateAudience = true,
-        ValidateLifetime = true,
         ValidateIssuerSigningKey = true,
-        ValidIssuer = builder.Configuration["Jwt:Issuer"],
-        ValidAudience = builder.Configuration["Jwt:Audience"],
+        ValidIssuer = builder.Configuration["JWT:Issuer"],
+        ValidAudience = builder.Configuration["JWT:Audience"],
         IssuerSigningKey = new SymmetricSecurityKey(
-            Encoding.UTF8.GetBytes(builder.Configuration["Jwt:SigningKey"]!)
+            Encoding.UTF8.GetBytes(builder.Configuration["JWT:SecretKey"]!)
         )
+    };
+
+    // Bro will solve Bearer JWT in [Authorization] by default so cool.
+    options.Events = new JwtBearerEvents
+    {
+        OnMessageReceived = context =>
+        {
+            if (context.Request.Cookies.TryGetValue("AlexCoolShelfAppToken", out string? authToken))
+            {
+                context.Token = authToken;
+            }
+
+            return Task.CompletedTask;
+        }
     };
 });
 

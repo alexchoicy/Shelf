@@ -11,13 +11,10 @@ namespace Shelf.Api.Controllers;
 public class AuthController : ControllerBase
 {
     private const string AuthCookieName = "AlexCoolShelfAppToken";
-    private readonly IWebHostEnvironment _environment;
     private readonly IAuthService _authService;
 
-    public AuthController(
-        IWebHostEnvironment environment, IAuthService authService)
+    public AuthController(IAuthService authService)
     {
-        _environment = environment;
         _authService = authService;
     }
 
@@ -42,8 +39,9 @@ public class AuthController : ControllerBase
         {
             HttpOnly = true,
             SameSite = SameSiteMode.Lax,
-            Secure = !_environment.IsDevelopment(),
+            Secure = true,
             IsEssential = true,
+            Expires = DateTimeOffset.UtcNow.AddYears(100) // IS FINE!
         });
 
         return Ok(new LoginResponseDto
@@ -56,5 +54,12 @@ public class AuthController : ControllerBase
                 Roles = result.User.Roles,
             },
         });
+    }
+
+    [HttpGet]
+    [Authorize]
+    public ActionResult<string> GetProtectedResource()
+    {
+        return Ok("You have accessed a protected resource.");
     }
 }
