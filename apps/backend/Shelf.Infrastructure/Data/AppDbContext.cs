@@ -23,6 +23,7 @@ public class AppDbContext : IdentityDbContext<User>
     public DbSet<Source> Sources { get; set; }
     public DbSet<Tag> Tags { get; set; }
     public DbSet<TagAlias> TagAliases { get; set; }
+    public DbSet<TagRelationship> TagRelationships { get; set; }
     public DbSet<Work> Works { get; set; }
     public DbSet<WorkCredit> WorkCredits { get; set; }
     public DbSet<WorkSource> WorkSources { get; set; }

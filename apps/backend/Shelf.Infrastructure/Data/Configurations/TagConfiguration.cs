@@ -12,5 +12,10 @@ public class TagConfiguration : IEntityTypeConfiguration<Tag>
             .WithMany(source => source.Tags)
             .HasForeignKey(tag => tag.SourceId)
             .OnDelete(DeleteBehavior.Cascade);
+
+        builder.HasOne(tag => tag.CreatedByUser)
+            .WithMany()
+            .HasForeignKey(tag => tag.CreatedByUserId)
+            .OnDelete(DeleteBehavior.SetNull);
     }
 }
