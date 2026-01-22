@@ -1,27 +1,41 @@
+import { redirect } from "@tanstack/react-router";
+import { createServerFn } from "@tanstack/react-start";
+import { getRequestHeader } from "@tanstack/react-start/server";
+
 const API_Endpoint = import.meta.env.VITE_API_ENDPOINT;
 //I DUNNO MAYBE I SHOULD JUST USE openapi-fetch
 export type APIFetchResult<T> =
 	| { ok: true; status: number; data: T }
 	| { ok: false; status: number; data: null; error?: unknown };
 
+const getServerHeaders = createServerFn().handler(async () => {
+	return getRequestHeader("cookie");
+});
+
+const isBrowser = typeof window !== "undefined";
+
 export async function $APIFetch<T>(
 	endpoint: string,
 	options?: RequestInit,
 ): Promise<APIFetchResult<T>> {
 	const url = `${API_Endpoint}${endpoint}`;
-	// const headers = getRequestHeaders(); ??
+	const cookieString = isBrowser ? undefined : await getServerHeaders();
 	const response = await fetch(url, {
 		...options,
 		headers: {
 			"Content-Type": "application/json",
+			...(cookieString ? { Cookie: cookieString } : {}),
 			...(options?.headers || {}),
-			// ...headers,
 		},
 		credentials: "include",
 	});
 
 	if (response.status === 401) {
-		window.location.href = "/login";
+		if (isBrowser) {
+			window.location.href = "/login";
+		} else {
+			throw redirect({ to: "/login" });
+		}
 		return {
 			ok: false,
 			status: response.status,

@@ -5,17 +5,20 @@ import { authQueries } from "@/lib/queries/auth.queries";
 
 export const Route = createFileRoute("/_authed")({
 	component: RouteComponent,
+	loader: async ({ context }) => {
+		await context.queryClient.ensureQueryData(authQueries.checkAuth());
+	},
 });
 
 function RouteComponent() {
-	const { isLoading, isError } = useQuery(authQueries.me());
+	const { isLoading, isError } = useQuery(authQueries.checkAuth());
 
 	if (isLoading) {
 		return <div>Loading...</div>;
 	}
 
 	if (isError) {
-		return <div>Error loading user data.</div>;
+		return <div>Error loading</div>;
 	}
 
 	return (

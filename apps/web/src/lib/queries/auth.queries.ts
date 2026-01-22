@@ -3,7 +3,7 @@ import type { components } from "@/data/APIschema";
 import { $APIFetch } from "@/lib/APIFetchClient";
 
 export const authQueries = {
-	me: () =>
+	checkAuth: () =>
 		queryOptions({
 			queryKey: ["auth", "me"],
 			queryFn: async () => {
