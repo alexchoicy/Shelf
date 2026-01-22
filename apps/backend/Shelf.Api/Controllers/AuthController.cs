@@ -32,7 +32,7 @@ public class AuthController : ControllerBase
 
         if (result is null)
         {
-            return Unauthorized(new { message = "Invalid credentials." });
+            return BadRequest(new { message = "Invalid credentials." });
         }
 
         Response.Cookies.Append(AuthCookieName, result.Token, new CookieOptions
@@ -60,6 +60,6 @@ public class AuthController : ControllerBase
     [Authorize]
     public ActionResult<string> GetProtectedResource()
     {
-        return Ok("You have accessed a protected resource.");
+        return Ok();
     }
 }

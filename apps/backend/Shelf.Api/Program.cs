@@ -51,6 +51,7 @@ builder.Services.AddAuthentication(options =>
     {
         OnMessageReceived = context =>
         {
+            Console.WriteLine("OnMessageReceived triggered");
             if (context.Request.Cookies.TryGetValue("AlexCoolShelfAppToken", out string? authToken))
             {
                 context.Token = authToken;
