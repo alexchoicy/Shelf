@@ -1,6 +1,6 @@
 import { useForm } from "@tanstack/react-form";
-import { useMutation, useQuery } from "@tanstack/react-query";
-import { createFileRoute, useNavigate } from "@tanstack/react-router";
+import { queryOptions, useMutation } from "@tanstack/react-query";
+import { createFileRoute, redirect, useNavigate } from "@tanstack/react-router";
 import z from "zod";
 import { Button } from "@/components/shadcn/button";
 import {
@@ -17,10 +17,33 @@ import {
 	FieldLabel,
 } from "@/components/shadcn/field";
 import { Input } from "@/components/shadcn/input";
+import { $APIFetch } from "@/lib/APIFetchClient";
 import { authMutations } from "@/lib/queries/auth.queries";
+
+const checkAuthQuery = queryOptions({
+	queryKey: ["auth", "login"],
+	queryFn: async () => {
+		const result = await $APIFetch(
+			"/auth",
+			{
+				method: "GET",
+			},
+			false,
+		);
+		// if (!result.ok) throw new Error("Failed to fetch user");
+		return result.ok;
+	},
+	staleTime: 0,
+});
 
 export const Route = createFileRoute("/(public)/login/")({
 	component: RouteComponent,
+	loader: async ({ context }) => {
+		const isAuthed = await context.queryClient.ensureQueryData(checkAuthQuery);
+		if (isAuthed) {
+			redirect({ to: "/", replace: true, throw: true });
+		}
+	},
 });
 
 function RouteComponent() {

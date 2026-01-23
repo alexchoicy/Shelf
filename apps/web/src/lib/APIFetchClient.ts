@@ -16,7 +16,8 @@ const isBrowser = typeof window !== "undefined";
 
 export async function $APIFetch<T>(
 	endpoint: string,
-	options?: RequestInit,
+	options: RequestInit = {},
+	authRedirect: boolean = true,
 ): Promise<APIFetchResult<T>> {
 	const url = `${API_Endpoint}${endpoint}`;
 	const cookieString = isBrowser ? undefined : await getServerHeaders();
@@ -30,7 +31,7 @@ export async function $APIFetch<T>(
 		credentials: "include",
 	});
 
-	if (response.status === 401) {
+	if (response.status === 401 && authRedirect) {
 		if (isBrowser) {
 			window.location.href = "/login";
 		} else {
