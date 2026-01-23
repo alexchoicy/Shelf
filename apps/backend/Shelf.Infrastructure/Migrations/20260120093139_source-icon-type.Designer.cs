@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using Shelf.Infrastructure.Data;
@@ -11,9 +12,11 @@ using Shelf.Infrastructure.Data;
 namespace Shelf.Infrastructure.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260120093139_source-icon-type")]
+    partial class sourceicontype
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -46,22 +49,6 @@ namespace Shelf.Infrastructure.Migrations
                         .HasDatabaseName("RoleNameIndex");
 
                     b.ToTable("AspNetRoles", (string)null);
-
-                    b.HasData(
-                        new
-                        {
-                            Id = "39773055-af77-4687-afc5-ceb1d99b5a8e",
-                            ConcurrencyStamp = "508a0eaf-dbca-47d9-baeb-597b81a4957e",
-                            Name = "Admin",
-                            NormalizedName = "ADMIN"
-                        },
-                        new
-                        {
-                            Id = "e1368ff1-fb86-4763-8bd7-eb5a4269084e",
-                            ConcurrencyStamp = "70b645e2-64b9-4d69-8a37-46413af238b0",
-                            Name = "User",
-                            NormalizedName = "USER"
-                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -536,18 +523,12 @@ namespace Shelf.Infrastructure.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("timestamp with time zone");
 
-                    b.Property<string>("CreatedByUserId")
-                        .HasColumnType("text");
-
                     b.Property<DateTime?>("DeletedAt")
                         .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("Description")
                         .IsRequired()
                         .HasColumnType("text");
-
-                    b.Property<bool>("IsPrimary")
-                        .HasColumnType("boolean");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -561,15 +542,13 @@ namespace Shelf.Infrastructure.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<int?>("SourceId")
+                    b.Property<int>("SourceId")
                         .HasColumnType("integer");
 
                     b.Property<DateTime>("UpdatedAt")
                         .HasColumnType("timestamp with time zone");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("CreatedByUserId");
 
                     b.HasIndex("SourceId");
 
@@ -609,53 +588,6 @@ namespace Shelf.Infrastructure.Migrations
                     b.HasIndex("TagId");
 
                     b.ToTable("TagAliases");
-                });
-
-            modelBuilder.Entity("Shelf.Infrastructure.Entity.TagRelationship", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
-
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<string>("CreatedByUserId")
-                        .HasColumnType("text");
-
-                    b.Property<string>("Notes")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<int>("PrimaryTagId")
-                        .HasColumnType("integer");
-
-                    b.Property<int>("RelatedTagId")
-                        .HasColumnType("integer");
-
-                    b.Property<int>("RelationshipType")
-                        .HasColumnType("integer");
-
-                    b.Property<DateTime>("UpdatedAt")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("CreatedByUserId");
-
-                    b.HasIndex("RelatedTagId");
-
-                    b.HasIndex("RelationshipType");
-
-                    b.HasIndex("PrimaryTagId", "RelatedTagId")
-                        .IsUnique();
-
-                    b.ToTable("TagRelationships", t =>
-                        {
-                            t.HasCheckConstraint("CK_TagRelationship_DifferentTags", "\"PrimaryTagId\" != \"RelatedTagId\"");
-                        });
                 });
 
             modelBuilder.Entity("Shelf.Infrastructure.Entity.User", b =>
@@ -1040,17 +972,11 @@ namespace Shelf.Infrastructure.Migrations
 
             modelBuilder.Entity("Shelf.Infrastructure.Entity.Tag", b =>
                 {
-                    b.HasOne("Shelf.Infrastructure.Entity.User", "CreatedByUser")
-                        .WithMany()
-                        .HasForeignKey("CreatedByUserId")
-                        .OnDelete(DeleteBehavior.SetNull);
-
                     b.HasOne("Shelf.Infrastructure.Entity.Source", "Source")
                         .WithMany("Tags")
                         .HasForeignKey("SourceId")
-                        .OnDelete(DeleteBehavior.Cascade);
-
-                    b.Navigation("CreatedByUser");
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Source");
                 });
@@ -1064,32 +990,6 @@ namespace Shelf.Infrastructure.Migrations
                         .IsRequired();
 
                     b.Navigation("Tag");
-                });
-
-            modelBuilder.Entity("Shelf.Infrastructure.Entity.TagRelationship", b =>
-                {
-                    b.HasOne("Shelf.Infrastructure.Entity.User", "CreatedByUser")
-                        .WithMany()
-                        .HasForeignKey("CreatedByUserId")
-                        .OnDelete(DeleteBehavior.SetNull);
-
-                    b.HasOne("Shelf.Infrastructure.Entity.Tag", "PrimaryTag")
-                        .WithMany("PrimaryRelationships")
-                        .HasForeignKey("PrimaryTagId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.HasOne("Shelf.Infrastructure.Entity.Tag", "RelatedTag")
-                        .WithMany("RelatedRelationships")
-                        .HasForeignKey("RelatedTagId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.Navigation("CreatedByUser");
-
-                    b.Navigation("PrimaryTag");
-
-                    b.Navigation("RelatedTag");
                 });
 
             modelBuilder.Entity("Shelf.Infrastructure.Entity.Work", b =>
@@ -1241,10 +1141,6 @@ namespace Shelf.Infrastructure.Migrations
             modelBuilder.Entity("Shelf.Infrastructure.Entity.Tag", b =>
                 {
                     b.Navigation("Aliases");
-
-                    b.Navigation("PrimaryRelationships");
-
-                    b.Navigation("RelatedRelationships");
 
                     b.Navigation("WorkTags");
                 });

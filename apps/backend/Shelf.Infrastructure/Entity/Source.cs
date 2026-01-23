@@ -1,6 +1,7 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using Microsoft.EntityFrameworkCore;
+using Shelf.Infrastructure.Enum;
 
 
 namespace Shelf.Infrastructure.Entity;
@@ -22,6 +23,8 @@ public class Source
         get => _normalizedName;
         set => _normalizedName = value.Normalize();
     }
+
+    public SourceIconKey IconKey { get; set; } = SourceIconKey.GENERIC;
 
     public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
     public DateTime UpdatedAt { get; set; } = DateTime.UtcNow;
