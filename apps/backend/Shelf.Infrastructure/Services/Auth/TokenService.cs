@@ -3,12 +3,13 @@ using System.Security.Claims;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using Shelf.Infrastructure.Entity;
-
+using Shelf.Core.Enum;
 namespace Shelf.Core.Services;
 
 public interface ITokenService
 {
     string GenerateUserToken(User user, IList<string> roles);
+    string GenerateShareToken(string shareId);
 }
 
 public class TokenService : ITokenService
@@ -27,7 +28,8 @@ public class TokenService : ITokenService
         List<Claim> claims = new List<Claim>
            {
                 new Claim(JwtRegisteredClaimNames.NameId, user.Id),
-                new Claim(JwtRegisteredClaimNames.Name, user.UserName!)
+                new Claim(JwtRegisteredClaimNames.Name, user.UserName!),
+                new Claim("access_type", TokenUseType.USERACCESS.ToString()),
            };
 
         foreach (var role in roles)
@@ -42,7 +44,7 @@ public class TokenService : ITokenService
             Subject = new ClaimsIdentity(claims),
             SigningCredentials = creds,
             Issuer = _config["JWT:Issuer"],
-            Audience = _config["JWT:Audience"]
+            Audience = _config["JWT:Audience"],
         };
 
         JwtSecurityTokenHandler tokenHandler = new JwtSecurityTokenHandler();
@@ -51,4 +53,31 @@ public class TokenService : ITokenService
 
         return tokenHandler.WriteToken(token);
     }
+
+    public string GenerateShareToken(string shareId)
+    {
+        List<Claim> claims = new List<Claim>
+           {
+                new Claim("share_id", shareId),
+                new Claim("access_type", TokenUseType.CONTENTACCESS.ToString()),
+           };
+
+        SigningCredentials creds = new SigningCredentials(_key, SecurityAlgorithms.HmacSha512Signature);
+
+        SecurityTokenDescriptor tokenDescriptor = new SecurityTokenDescriptor
+        {
+            Subject = new ClaimsIdentity(claims),
+            SigningCredentials = creds,
+            Issuer = _config["JWT:Issuer"],
+            Audience = _config["JWT:Audience"],
+        };
+
+        JwtSecurityTokenHandler tokenHandler = new JwtSecurityTokenHandler();
+
+        SecurityToken token = tokenHandler.CreateToken(tokenDescriptor);
+
+        return tokenHandler.WriteToken(token);
+    }
+
+
 }

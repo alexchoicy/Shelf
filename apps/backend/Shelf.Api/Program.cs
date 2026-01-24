@@ -1,13 +1,14 @@
 using System.Text;
-using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
+using Shelf.Core.Enum;
 using Shelf.Infrastructure;
 using Shelf.Infrastructure.Data;
 using Shelf.Infrastructure.Data.Seed;
 using Shelf.Infrastructure.Entity;
+using Shelf.Infrastructure.Enum;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -55,12 +56,29 @@ builder.Services.AddAuthentication(options =>
             {
                 context.Token = authToken;
             }
+            else if (context.Request.Query.TryGetValue("access_token", out var accessTokenValues))
+            {
+                context.Token = accessTokenValues;
+            }
 
             return Task.CompletedTask;
         }
     };
 });
 
+builder.Services.AddAuthorization(options =>
+{
+    options.AddPolicy("UserAllowed",
+        policy => policy.RequireClaim("access_type", TokenUseType.USERACCESS.ToString()));
+    options.DefaultPolicy = options.GetPolicy("UserAllowed")!;
+
+    options.AddPolicy("RequireAdminRole", policy => policy.RequireRole(Roles.Admin.ToString()));
+
+    options.AddPolicy("ShareAllowed", policy =>
+        policy.RequireClaim("access_type",
+            TokenUseType.USERACCESS.ToString(),
+            TokenUseType.CONTENTACCESS.ToString()));
+});
 
 builder.Services.AddInfrastructure(builder.Configuration, builder.Environment);
 
