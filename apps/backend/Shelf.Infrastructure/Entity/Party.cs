@@ -33,5 +33,6 @@ public class Party
     public ICollection<PartyAlias> Aliases { get; set; } = new List<PartyAlias>();
     public ICollection<PartyAccount> Accounts { get; set; } = new List<PartyAccount>();
     public ICollection<WorkCredit> WorkCredits { get; set; } = new List<WorkCredit>();
+    public ICollection<Work> PrimaryWorks { get; set; } = new List<Work>();
 
 }

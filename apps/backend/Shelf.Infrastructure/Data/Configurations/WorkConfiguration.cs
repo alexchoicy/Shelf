@@ -17,5 +17,10 @@ public class WorkConfiguration : IEntityTypeConfiguration<Work>
             .WithMany(file => file.CoverWorks)
             .HasForeignKey(work => work.CoverFileId)
             .OnDelete(DeleteBehavior.SetNull);
+
+        builder.HasOne(work => work.PrimaryParty)
+            .WithMany(party => party.PrimaryWorks)
+            .HasForeignKey(work => work.PrimaryPartyId)
+            .OnDelete(DeleteBehavior.SetNull);
     }
 }

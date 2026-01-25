@@ -15,6 +15,9 @@ public class Work
     public required string UploaderId { get; set; }
     public User Uploader { get; set; } = default!;
 
+    public Guid? PrimaryPartyId { get; set; }
+    public Party? PrimaryParty { get; set; }
+
     public required string Title { get; set; } = string.Empty;
     public string Description { get; set; } = string.Empty;
 
