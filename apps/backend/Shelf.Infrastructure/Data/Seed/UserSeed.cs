@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
 using Shelf.Infrastructure.Entity;
-using Shelf.Infrastructure.Enum;
+using Shelf.Core.Enum;
 
 namespace Shelf.Infrastructure.Data.Seed;
 

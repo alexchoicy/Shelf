@@ -1,5 +1,5 @@
 using Shelf.Core.StorageServices;
-using Shelf.Infrastructure.Enum;
+using Shelf.Core.Enum;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 

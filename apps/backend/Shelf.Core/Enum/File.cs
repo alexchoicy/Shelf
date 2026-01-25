@@ -1,4 +1,4 @@
-namespace Shelf.Infrastructure.Enum;
+namespace Shelf.Core.Enum;
 
 public enum FileLocation
 {
