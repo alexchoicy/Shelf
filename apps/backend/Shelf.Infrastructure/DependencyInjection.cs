@@ -44,6 +44,8 @@ public static class DependencyInjection
 
         services.AddScoped<IMeService, MeService>();
 
+        services.AddScoped<IWorkService, Services.Work.WorkService>();
+
         services.AddSingleton<LocalStorageProvider>();
         services.AddSingleton<IStorageProvider>(sp => sp.GetRequiredService<LocalStorageProvider>());
         services.AddSingleton<IStorageProviderResolver, StorageProviderResolver>();

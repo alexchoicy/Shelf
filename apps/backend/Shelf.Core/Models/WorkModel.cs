@@ -1,6 +1,6 @@
 using Shelf.Core.Enum;
 
-namespace Shelf.Api.DTO;
+namespace Shelf.Core.Models;
 
 public sealed class WorkCreationRequest
 {
