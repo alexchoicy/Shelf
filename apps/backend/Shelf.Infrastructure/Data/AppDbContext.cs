@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Shelf.Infrastructure.Entity;
+using Shelf.Core.Enum;
 
 namespace Shelf.Infrastructure.Data;
 
@@ -40,15 +41,15 @@ public class AppDbContext : IdentityDbContext<User>
             new IdentityRole
             {
                 Id = "39773055-af77-4687-afc5-ceb1d99b5a8e",
-                Name = Enum.Roles.Admin.ToString(),
-                NormalizedName = Enum.Roles.Admin.ToString().ToUpper(),
+                Name = Core.Enum.Roles.Admin.ToString(),
+                NormalizedName = Core.Enum.Roles.Admin.ToString().ToUpper(),
                 ConcurrencyStamp = "508a0eaf-dbca-47d9-baeb-597b81a4957e"
             },
             new IdentityRole
             {
                 Id = "e1368ff1-fb86-4763-8bd7-eb5a4269084e",
-                Name = Enum.Roles.User.ToString(),
-                NormalizedName = Enum.Roles.User.ToString().ToUpper(),
+                Name = Core.Enum.Roles.User.ToString(),
+                NormalizedName = Core.Enum.Roles.User.ToString().ToUpper(),
                 ConcurrencyStamp = "70b645e2-64b9-4d69-8a37-46413af238b0"
             }
         };

@@ -10,6 +10,8 @@ using Shelf.Infrastructure.Entity;
 using Shelf.Infrastructure.Services;
 using Shelf.Infrastructure.StorageServices;
 using Shelf.Core.StorageServices;
+using Shelf.Infrastructure.Services.Work;
+using Shelf.Infrastructure.Services.Party;
 
 namespace Shelf.Infrastructure;
 
@@ -44,7 +46,8 @@ public static class DependencyInjection
 
         services.AddScoped<IMeService, MeService>();
 
-        services.AddScoped<IWorkService, Services.Work.WorkService>();
+        services.AddScoped<IWorkService, WorkService>();
+        services.AddScoped<IPartyService, PartyService>();
 
         services.AddSingleton<LocalStorageProvider>();
         services.AddSingleton<IStorageProvider>(sp => sp.GetRequiredService<LocalStorageProvider>());
