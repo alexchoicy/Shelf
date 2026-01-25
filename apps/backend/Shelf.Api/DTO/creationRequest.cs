@@ -27,3 +27,17 @@ public sealed class MediaItemCreationRequest
     public int Order { get; set; } = 0;
     public MediaItemKind Kind { get; set; } = MediaItemKind.MAIN;
 }
+
+public sealed class WorkCreationResponse
+{
+    public required Guid WorkId { get; set; }
+
+    public required string CoverUploadURL { get; set; }
+    public required List<MediaItemUploadInfo> MediaItems { get; set; }
+}
+
+public sealed class MediaItemUploadInfo
+{
+    public required Guid MediaItemId { get; set; }
+    public required string UploadURL { get; set; }
+}

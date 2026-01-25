@@ -13,7 +13,7 @@ public class LocalController : ControllerBase
 
     public LocalController(ILocalStorageService localStorageService) => _localStorageService = localStorageService;
 
-    [HttpPost("{id}")]
+    [HttpPost("/source/{id}")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public async Task<IActionResult> Upload([FromRoute] Guid id, [FromForm] IFormFile? file)
