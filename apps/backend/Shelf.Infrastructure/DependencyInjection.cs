@@ -7,6 +7,7 @@ using Shelf.Core.Services;
 using Shelf.Infrastructure.Authentication;
 using Shelf.Infrastructure.Data;
 using Shelf.Infrastructure.Entity;
+using Shelf.Infrastructure.Services;
 
 namespace Shelf.Infrastructure;
 
@@ -38,6 +39,8 @@ public static class DependencyInjection
 
         services.AddScoped<IAuthService, AuthService>();
         services.AddScoped<ITokenService, TokenService>();
+
+        services.AddScoped<IMeService, MeService>();
 
         return services;
     }

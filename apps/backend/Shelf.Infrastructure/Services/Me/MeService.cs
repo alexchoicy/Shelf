@@ -3,7 +3,7 @@ using Shelf.Core.Models;
 using Shelf.Core.Services;
 using Shelf.Infrastructure.Entity;
 
-namespace Shelf.Infrastructure.Services.Me;
+namespace Shelf.Infrastructure.Services;
 
 public class MeService : IMeService
 {
