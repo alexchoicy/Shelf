@@ -8,7 +8,6 @@ using Shelf.Infrastructure;
 using Shelf.Infrastructure.Data;
 using Shelf.Infrastructure.Data.Seed;
 using Shelf.Infrastructure.Entity;
-using Shelf.Infrastructure.Enum;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -100,6 +99,10 @@ if (app.Environment.IsDevelopment())
 
         UserManager<User> userManager = scope.ServiceProvider.GetRequiredService<UserManager<User>>();
         await UserSeed.SeedAsync(userManager, builder.Configuration);
+
+        //optional later
+        //Create a "Unknown" party for works without a known primary party
+        await PartySeed.SeedAsync(dbContext);
     }
 }
 
