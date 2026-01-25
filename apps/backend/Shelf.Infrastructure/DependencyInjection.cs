@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -8,6 +8,8 @@ using Shelf.Infrastructure.Authentication;
 using Shelf.Infrastructure.Data;
 using Shelf.Infrastructure.Entity;
 using Shelf.Infrastructure.Services;
+using Shelf.Infrastructure.StorageServices;
+using Shelf.Core.StorageServices;
 
 namespace Shelf.Infrastructure;
 
@@ -41,6 +43,12 @@ public static class DependencyInjection
         services.AddScoped<ITokenService, TokenService>();
 
         services.AddScoped<IMeService, MeService>();
+
+        services.AddSingleton<LocalStorageProvider>();
+        services.AddSingleton<IStorageProvider>(sp => sp.GetRequiredService<LocalStorageProvider>());
+        services.AddSingleton<IStorageProviderResolver, StorageProviderResolver>();
+
+        services.AddScoped<ILocalStorageService, LocalStorageService>();
 
         return services;
     }
