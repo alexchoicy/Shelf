@@ -25,6 +25,7 @@ public class Work
 
     public string NovelContent { get; set; } = string.Empty;
 
+    public WorkMedium Medium { get; set; }
     public WorkType Type { get; set; }
     public WorkVisibility Visibility { get; set; } = WorkVisibility.PUBLIC;
     public WorkRating Rating { get; set; } = WorkRating.GENERAL;
