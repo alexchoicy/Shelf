@@ -4,7 +4,8 @@ public enum MediaItemType
 {
     IMAGE,
     VIDEO,
-    AUDIO
+    AUDIO,
+    TEXT
 }
 
 public enum MediaItemState

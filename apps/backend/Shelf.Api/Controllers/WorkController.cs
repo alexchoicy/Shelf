@@ -24,6 +24,7 @@ public class WorkController : ControllerBase
         {
             Title = request.Title,
             Description = request.Description,
+            Medium = request.Medium,
             Type = request.Type,
             Visibility = request.Visibility,
             Rating = request.Rating,
@@ -52,7 +53,9 @@ public class WorkController : ControllerBase
             MediaItems = result.MediaItems.Select(mi => new DTO.MediaItemUploadInfo
             {
                 MediaItemId = mi.MediaItemId,
-                UploadURL = mi.UploadURL
+                FileHash = mi.FileHash,
+                UploadURL = mi.UploadURL,
+                ThumbnailURL = mi.ThumbnailURL,
             }).ToList()
         };
 

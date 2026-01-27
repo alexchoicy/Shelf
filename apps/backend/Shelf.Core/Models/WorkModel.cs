@@ -12,6 +12,7 @@ public sealed class WorkCreationRequest
     public bool IsAI { get; set; } = false;
     public string NovelContent { get; set; } = string.Empty;
 
+    public WorkMedium Medium { get; set; }
     public WorkType Type { get; set; }
     public WorkVisibility Visibility { get; set; } = WorkVisibility.PUBLIC;
     public WorkRating Rating { get; set; } = WorkRating.GENERAL;
@@ -42,5 +43,7 @@ public sealed class WorkCreationResponse
 public sealed class MediaItemUploadInfo
 {
     public required Guid MediaItemId { get; set; }
+    public required string FileHash { get; set; }
     public required string UploadURL { get; set; }
+    public required string ThumbnailURL { get; set; }
 }

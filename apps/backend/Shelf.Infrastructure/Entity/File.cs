@@ -24,6 +24,7 @@ public class File
     public required long FileSize { get; set; }
     public required string MimeType { get; set; }
 
+    //I think these two are possible to be 0
     public required int Width { get; set; }
     public required int Height { get; set; }
 
