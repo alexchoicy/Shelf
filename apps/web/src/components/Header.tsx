@@ -6,5 +6,5 @@ type Props = {
 };
 
 export default function Header({ user, children }: Props) {
-	return <>{JSON.stringify(user)}</>;
+	return <></>;
 }
