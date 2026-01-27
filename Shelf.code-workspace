@@ -10,5 +10,11 @@
 			"path": "apps/web"
 		}
 	],
-	"settings": {}
+	"settings": {},
+	"extensions": {
+		"recommendations": [
+			"biomejs.biome",
+			"bradlc.vscode-tailwindcss"
+		]
+	}
 }
