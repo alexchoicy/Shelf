@@ -33,11 +33,11 @@ public class Work
     public Guid? CoverFileId { get; set; }
     public File? CoverFile { get; set; }
 
-    public DateTime? ReleasedAt { get; set; } = null;
+    public DateTimeOffset? ReleasedAt { get; set; } = null;
 
-    public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
-    public DateTime UpdatedAt { get; set; } = DateTime.UtcNow;
-    public DateTime? DeletedAt { get; set; } = null;
+    public DateTimeOffset CreatedAt { get; set; } = DateTimeOffset.UtcNow;
+    public DateTimeOffset UpdatedAt { get; set; } = DateTimeOffset.UtcNow;
+    public DateTimeOffset? DeletedAt { get; set; } = null;
 
 
     public ICollection<MediaItem> MediaItems { get; set; } = new List<MediaItem>();

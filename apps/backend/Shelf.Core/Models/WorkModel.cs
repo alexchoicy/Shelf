@@ -16,7 +16,7 @@ public sealed class WorkCreationRequest
     public WorkType Type { get; set; }
     public WorkVisibility Visibility { get; set; } = WorkVisibility.PUBLIC;
     public WorkRating Rating { get; set; } = WorkRating.GENERAL;
-    public DateTime? ReleasedAt { get; set; } = null;
+    public DateTimeOffset? ReleasedAt { get; set; } = null;
 
     public required string CoverHash { get; set; } //blake3
 

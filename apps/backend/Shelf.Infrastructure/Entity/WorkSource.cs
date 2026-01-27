@@ -24,13 +24,13 @@ public class WorkSource
     public string Url { get; set; } = string.Empty;
     public string Notes { get; set; } = string.Empty;
 
-    public DateTime? ReleasedAt { get; set; }
+    public DateTimeOffset? ReleasedAt { get; set; }
 
-    public DateTime FetchedAt { get; set; } = DateTime.UtcNow;
+    public DateTimeOffset FetchedAt { get; set; } = DateTimeOffset.UtcNow;
 
-    public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
-    public DateTime UpdatedAt { get; set; } = DateTime.UtcNow;
-    public DateTime? DeletedAt { get; set; } = null;
+    public DateTimeOffset CreatedAt { get; set; } = DateTimeOffset.UtcNow;
+    public DateTimeOffset UpdatedAt { get; set; } = DateTimeOffset.UtcNow;
+    public DateTimeOffset? DeletedAt { get; set; } = null;
 
     public ICollection<WorkTag> AssertedWorkTags { get; set; } = new List<WorkTag>();
 }

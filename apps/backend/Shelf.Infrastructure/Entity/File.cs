@@ -31,9 +31,9 @@ public class File
     public int? DurationInSeconds { get; set; } = null;
     public string Codec { get; set; } = string.Empty;
 
-    public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
-    public DateTime UpdatedAt { get; set; } = DateTime.UtcNow;
-    public DateTime? DeletedAt { get; set; } = null;
+    public DateTimeOffset CreatedAt { get; set; } = DateTimeOffset.UtcNow;
+    public DateTimeOffset UpdatedAt { get; set; } = DateTimeOffset.UtcNow;
+    public DateTimeOffset? DeletedAt { get; set; } = null;
 
     public ICollection<MediaItem> MediaItems { get; set; } = new List<MediaItem>();
     public ICollection<Work> CoverWorks { get; set; } = new List<Work>();

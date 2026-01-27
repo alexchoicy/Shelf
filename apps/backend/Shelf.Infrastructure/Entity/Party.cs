@@ -26,9 +26,9 @@ public class Party
     public Guid? CoverFileId { get; set; }
     public File? CoverFile { get; set; }
 
-    public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
-    public DateTime UpdatedAt { get; set; } = DateTime.UtcNow;
-    public DateTime? DeletedAt { get; set; } = null;
+    public DateTimeOffset CreatedAt { get; set; } = DateTimeOffset.UtcNow;
+    public DateTimeOffset UpdatedAt { get; set; } = DateTimeOffset.UtcNow;
+    public DateTimeOffset? DeletedAt { get; set; } = null;
 
     public ICollection<PartyAlias> Aliases { get; set; } = new List<PartyAlias>();
     public ICollection<PartyAccount> Accounts { get; set; } = new List<PartyAccount>();

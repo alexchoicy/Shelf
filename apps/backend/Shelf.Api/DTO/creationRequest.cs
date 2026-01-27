@@ -23,7 +23,7 @@ public sealed class WorkCreationRequest
 
     [JsonConverter(typeof(JsonStringEnumConverter))]
     public required WorkRating Rating { get; set; } = WorkRating.GENERAL;
-    public DateTime? ReleasedAt { get; set; } = null;
+    public DateTimeOffset? ReleasedAt { get; set; } = null;
 
     public required string CoverHash { get; set; } //blake3
 

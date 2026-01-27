@@ -36,9 +36,9 @@ public class Tag
     public string? CreatedByUserId { get; set; }
     public User? CreatedByUser { get; set; }
 
-    public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
-    public DateTime UpdatedAt { get; set; } = DateTime.UtcNow;
-    public DateTime? DeletedAt { get; set; } = null;
+    public DateTimeOffset CreatedAt { get; set; } = DateTimeOffset.UtcNow;
+    public DateTimeOffset UpdatedAt { get; set; } = DateTimeOffset.UtcNow;
+    public DateTimeOffset? DeletedAt { get; set; } = null;
 
     public ICollection<TagAlias> Aliases { get; set; } = new List<TagAlias>();
     public ICollection<WorkTag> WorkTags { get; set; } = new List<WorkTag>();
