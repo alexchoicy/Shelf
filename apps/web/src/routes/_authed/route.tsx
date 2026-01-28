@@ -1,5 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import { createFileRoute, Outlet } from "@tanstack/react-router";
+import { Sidebar } from "@/components/Sidebar";
+import { SidebarProvider } from "@/components/shadcn/sidebar";
 import { authQueries } from "@/lib/queries/auth.queries";
 import { meQueries } from "@/lib/queries/me.queries";
 
@@ -13,7 +15,6 @@ export const Route = createFileRoute("/_authed")({
 
 function RouteComponent() {
 	const { isLoading, isError } = useQuery(authQueries.checkAuth());
-	const { data } = useQuery(meQueries.getMe());
 
 	if (isLoading) {
 		return <div>Loading...</div>;
@@ -23,5 +24,10 @@ function RouteComponent() {
 		return <div>Error loading</div>;
 	}
 
-	return <Outlet />;
+	return (
+		<SidebarProvider>
+			<Sidebar />
+			<Outlet />
+		</SidebarProvider>
+	);
 }
