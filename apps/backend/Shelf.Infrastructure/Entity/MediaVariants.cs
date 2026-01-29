@@ -15,7 +15,7 @@ public class MediaVariant
 
     public required Guid FileId { get; set; }
     public File? File { get; set; }
-
+    public int Priority { get; set; } = 0;
     public required bool IsDefault { get; set; }
 
     public required MediaVariantPurpose Purpose { get; set; } = MediaVariantPurpose.ORIGINAL;
