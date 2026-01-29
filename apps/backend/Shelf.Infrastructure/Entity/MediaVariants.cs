@@ -20,4 +20,5 @@ public class MediaVariant
 
     public required MediaVariantPurpose Purpose { get; set; } = MediaVariantPurpose.ORIGINAL;
     public string VariantKey { get; set; } = string.Empty;
+    public int? TimeOffsetMs { get; set; } = null;
 }
