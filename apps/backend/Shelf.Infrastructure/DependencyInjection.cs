@@ -3,15 +3,17 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Options;
 using Shelf.Core.Services;
 using Shelf.Infrastructure.Authentication;
 using Shelf.Infrastructure.Data;
 using Shelf.Infrastructure.Entity;
 using Shelf.Infrastructure.Services;
-using Shelf.Infrastructure.StorageServices;
+using Shelf.Core.Models;
 using Shelf.Core.StorageServices;
 using Shelf.Infrastructure.Services.Work;
 using Shelf.Infrastructure.Services.Party;
+using Shelf.Infrastructure.Storage.Local;
 
 namespace Shelf.Infrastructure;
 
@@ -50,8 +52,20 @@ public static class DependencyInjection
         services.AddScoped<IPartyService, PartyService>();
 
         services.AddSingleton<LocalStorageProvider>();
-        services.AddSingleton<IStorageProvider>(sp => sp.GetRequiredService<LocalStorageProvider>());
-        services.AddSingleton<IStorageProviderResolver, StorageProviderResolver>();
+
+        services.Configure<StorageOptions>(configuration.GetSection("Storage"));
+        services.AddSingleton(sp => sp.GetRequiredService<IOptions<StorageOptions>>().Value.MediaFolders);
+
+        services.AddSingleton<IStorageProvider>(sp =>
+        {
+            var options = sp.GetRequiredService<IOptions<StorageOptions>>().Value;
+            var providerName = options.DefaultProvider.Trim();
+
+            if (string.Equals(providerName, "Local", StringComparison.OrdinalIgnoreCase))
+                return sp.GetRequiredService<LocalStorageProvider>();
+
+            return sp.GetRequiredService<LocalStorageProvider>();
+        });
 
         services.AddScoped<ILocalStorageService, LocalStorageService>();
 

@@ -1,7 +1,7 @@
 using Shelf.Core.StorageServices;
 using Microsoft.Extensions.Logging;
 
-namespace Shelf.Infrastructure.StorageServices;
+namespace Shelf.Infrastructure.Storage.Local;
 
 public class LocalStorageService : ILocalStorageService
 {

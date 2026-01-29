@@ -31,5 +31,9 @@
 	},
 	"editor.codeActionsOnSave": {
 		"source.organizeImports.biome": "explicit"
+	},
+	"files.exclude": {
+		"**/.tanstack": true,
+		"**/node_modules": true
 	}
 }

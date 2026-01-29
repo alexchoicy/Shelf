@@ -18,28 +18,31 @@ public sealed class WorkCreationRequest
     public WorkRating Rating { get; set; } = WorkRating.GENERAL;
     public DateTimeOffset? ReleasedAt { get; set; } = null;
 
-    public required string CoverHash { get; set; } //blake3
+    public string? CoverHash { get; set; } //blake3
+    public string? CoverMimeType { get; set; }
+    public int? CoverWidth { get; set; }
+    public int? CoverHeight { get; set; }
 
     public List<MediaItemCreationRequest> MediaItems { get; set; } = new();
 }
 
 public sealed class MediaItemCreationRequest
 {
-    public required string FileHash { get; set; } //blake3
-    public string? ThumbnailHash { get; set; }
+    public string? FileHash { get; set; } //blake3
     public string Description { get; set; } = string.Empty;
     public required MediaItemType MediaType { get; set; }
     public required string MimeType { get; set; }
     public required long FileSize { get; set; }
     public required int Order { get; set; }
     public required MediaItemKind Kind { get; set; } = MediaItemKind.MAIN;
+    public int? Width { get; set; }
+    public int? Height { get; set; }
 }
 
 public sealed class WorkCreationResponse
 {
     public required Guid WorkId { get; set; }
-
-    public required string CoverUploadURL { get; set; }
+    public string? CoverUploadURL { get; set; }
     public required List<MediaItemUploadInfo> MediaItems { get; set; }
 }
 
@@ -48,5 +51,4 @@ public sealed class MediaItemUploadInfo
     public required Guid MediaItemId { get; set; }
     public required string FileHash { get; set; }
     public required string UploadURL { get; set; }
-    public required string ThumbnailURL { get; set; }
 }

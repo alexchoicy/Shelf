@@ -5,61 +5,67 @@ namespace Shelf.Api.DTO;
 
 public sealed class WorkCreationRequest
 {
-    public required string Title { get; set; }
-    public string Description { get; set; } = string.Empty;
+    public required string Title { get; init; } = string.Empty;
+    public string Description { get; init; } = string.Empty;
 
-    public required string PrimaryPartyId { get; set; } = string.Empty;
+    public required string PrimaryPartyId { get; init; } = string.Empty;
 
-    public required bool IsAI { get; set; } = false;
-    public string NovelContent { get; set; } = string.Empty;
-    [JsonConverter(typeof(JsonStringEnumConverter))]
-    public required WorkMedium Medium { get; set; }
+    public string NovelContent { get; init; } = string.Empty;
 
     [JsonConverter(typeof(JsonStringEnumConverter))]
-    public required WorkType Type { get; set; }
+    public required WorkMedium Medium { get; init; }
 
     [JsonConverter(typeof(JsonStringEnumConverter))]
-    public required WorkVisibility Visibility { get; set; } = WorkVisibility.PUBLIC;
+    public required WorkType Type { get; init; }
 
     [JsonConverter(typeof(JsonStringEnumConverter))]
-    public required WorkRating Rating { get; set; } = WorkRating.GENERAL;
-    public DateTimeOffset? ReleasedAt { get; set; } = null;
+    public required WorkVisibility Visibility { get; init; } = WorkVisibility.PUBLIC;
 
-    public required string CoverHash { get; set; } //blake3
+    [JsonConverter(typeof(JsonStringEnumConverter))]
+    public required WorkRating Rating { get; init; } = WorkRating.GENERAL;
+    public required bool IsAI { get; init; } = false;
+    public DateTimeOffset? ReleasedAt { get; init; } = null;
 
-    public required List<MediaItemCreationRequest> MediaItems { get; set; }
+    public string? CoverHash { get; init; } = null;
+    public string? CoverMimeType { get; init; }
+    public int? CoverWidth { get; init; }
+    public int? CoverHeight { get; init; }
+
+    public required List<MediaItemCreationRequest> MediaItems { get; init; } = new();
 }
 
 public sealed class MediaItemCreationRequest
 {
-    public required string FileHash { get; set; } //blake3
+    public string? FileHash { get; init; } // blake3
+    public string Description { get; init; } = string.Empty;
 
-    // I think thumbnail is optional for videos
-    public string? ThumbnailHash { get; set; }
-    public string Description { get; set; } = string.Empty;
     [JsonConverter(typeof(JsonStringEnumConverter))]
-    public required MediaItemType MediaType { get; set; }
-    public required string MimeType { get; set; }
-    public required long FileSize { get; set; }
-    public required int Order { get; set; }
+    public required MediaItemType MediaType { get; init; }
+
+    public required string MimeType { get; init; } = string.Empty;
+    public required long FileSize { get; init; }
+    public required int Order { get; init; }
+
     [JsonConverter(typeof(JsonStringEnumConverter))]
-    public required MediaItemKind Kind { get; set; } = MediaItemKind.MAIN;
+    public required MediaItemKind Kind { get; init; } = MediaItemKind.MAIN;
+
+    public int? Width { get; init; }
+    public int? Height { get; init; }
 }
+
+
+
 
 public sealed class WorkCreationResponse
 {
-    public required Guid WorkId { get; set; }
-
-    public required string CoverUploadURL { get; set; }
-    public required List<MediaItemUploadInfo> MediaItems { get; set; }
+    public required Guid WorkId { get; init; }
+    public string? CoverUploadURL { get; init; }
+    public required List<MediaItemUploadInfo> MediaItems { get; init; } = new();
 }
 
 public sealed class MediaItemUploadInfo
 {
-    public required Guid MediaItemId { get; set; }
-    public required string FileHash { get; set; }
-    public required string UploadURL { get; set; }
-
-    // This will be hardcoded with a style and size and file type
-    public required string ThumbnailURL { get; set; }
+    public required Guid MediaItemId { get; init; }
+    public required string FileHash { get; init; }
+    public required string UploadURL { get; init; }
 }

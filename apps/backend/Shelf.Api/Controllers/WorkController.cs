@@ -24,25 +24,29 @@ public class WorkController : ControllerBase
         {
             Title = request.Title,
             Description = request.Description,
+            PrimaryPartyId = request.PrimaryPartyId,
+            NovelContent = request.NovelContent,
             Medium = request.Medium,
             Type = request.Type,
             Visibility = request.Visibility,
             Rating = request.Rating,
-            CoverHash = request.CoverHash,
             IsAI = request.IsAI,
-            NovelContent = request.NovelContent,
-            PrimaryPartyId = request.PrimaryPartyId,
             ReleasedAt = request.ReleasedAt,
+            CoverHash = request.CoverHash,
+            CoverMimeType = request.CoverMimeType,
+            CoverWidth = request.CoverWidth,
+            CoverHeight = request.CoverHeight,
             MediaItems = request.MediaItems.Select(mi => new Core.Models.MediaItemCreationRequest
             {
                 FileHash = mi.FileHash,
-                ThumbnailHash = mi.ThumbnailHash,
                 Description = mi.Description,
                 MediaType = mi.MediaType,
                 MimeType = mi.MimeType,
                 FileSize = mi.FileSize,
                 Order = mi.Order,
-                Kind = mi.Kind
+                Kind = mi.Kind,
+                Width = mi.Width,
+                Height = mi.Height
             }).ToList()
         };
 
@@ -58,7 +62,6 @@ public class WorkController : ControllerBase
                 MediaItemId = mi.MediaItemId,
                 FileHash = mi.FileHash,
                 UploadURL = mi.UploadURL,
-                ThumbnailURL = mi.ThumbnailURL,
             }).ToList()
         };
 
