@@ -23,15 +23,13 @@ public class Party
 
     public required PartyType Type { get; set; } = PartyType.INDIVIDUAL;
 
-    public Guid? CoverFileId { get; set; }
-    public File? CoverFile { get; set; }
-
     public DateTimeOffset CreatedAt { get; set; } = DateTimeOffset.UtcNow;
     public DateTimeOffset UpdatedAt { get; set; } = DateTimeOffset.UtcNow;
     public DateTimeOffset? DeletedAt { get; set; } = null;
 
     public ICollection<PartyAlias> Aliases { get; set; } = new List<PartyAlias>();
     public ICollection<PartyAccount> Accounts { get; set; } = new List<PartyAccount>();
+    public ICollection<PartyCover> Covers { get; set; } = new List<PartyCover>();
     public ICollection<WorkCredit> WorkCredits { get; set; } = new List<WorkCredit>();
     public ICollection<Work> PrimaryWorks { get; set; } = new List<Work>();
 

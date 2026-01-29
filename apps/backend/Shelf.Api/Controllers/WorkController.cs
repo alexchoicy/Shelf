@@ -36,8 +36,11 @@ public class WorkController : ControllerBase
             MediaItems = request.MediaItems.Select(mi => new Core.Models.MediaItemCreationRequest
             {
                 FileHash = mi.FileHash,
+                ThumbnailHash = mi.ThumbnailHash,
                 Description = mi.Description,
                 MediaType = mi.MediaType,
+                MimeType = mi.MimeType,
+                FileSize = mi.FileSize,
                 Order = mi.Order,
                 Kind = mi.Kind
             }).ToList()

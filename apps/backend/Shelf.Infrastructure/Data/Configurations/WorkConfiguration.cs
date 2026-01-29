@@ -13,11 +13,6 @@ public class WorkConfiguration : IEntityTypeConfiguration<Work>
             .HasForeignKey(work => work.UploaderId)
             .OnDelete(DeleteBehavior.Cascade);
 
-        builder.HasOne(work => work.CoverFile)
-            .WithMany(file => file.CoverWorks)
-            .HasForeignKey(work => work.CoverFileId)
-            .OnDelete(DeleteBehavior.SetNull);
-
         builder.HasOne(work => work.PrimaryParty)
             .WithMany(party => party.PrimaryWorks)
             .HasForeignKey(work => work.PrimaryPartyId)

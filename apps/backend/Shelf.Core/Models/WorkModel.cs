@@ -26,10 +26,13 @@ public sealed class WorkCreationRequest
 public sealed class MediaItemCreationRequest
 {
     public required string FileHash { get; set; } //blake3
+    public string? ThumbnailHash { get; set; }
     public string Description { get; set; } = string.Empty;
-    public MediaItemType MediaType { get; set; }
-    public int Order { get; set; } = 0;
-    public MediaItemKind Kind { get; set; } = MediaItemKind.MAIN;
+    public required MediaItemType MediaType { get; set; }
+    public required string MimeType { get; set; }
+    public required long FileSize { get; set; }
+    public required int Order { get; set; }
+    public required MediaItemKind Kind { get; set; } = MediaItemKind.MAIN;
 }
 
 public sealed class WorkCreationResponse

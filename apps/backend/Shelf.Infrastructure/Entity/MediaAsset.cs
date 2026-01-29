@@ -4,12 +4,11 @@ using Shelf.Core.Enum;
 
 namespace Shelf.Infrastructure.Entity;
 
-[Table("MediaItems")]
-[PrimaryKey(nameof(FileId), nameof(WorkId))]
-public class MediaItem
+[Table("MediaAssets")]
+[PrimaryKey(nameof(Id))]
+public class MediaAsset
 {
-    public required Guid FileId { get; set; }
-    public File? File { get; set; }
+    public Guid Id { get; set; } = Guid.CreateVersion7();
 
     public required Guid WorkId { get; set; }
     public Work? Work { get; set; }
@@ -19,4 +18,6 @@ public class MediaItem
     public int Order { get; set; } = 0;
     public MediaItemState State { get; set; } = MediaItemState.PENDING;
     public MediaItemKind Kind { get; set; } = MediaItemKind.MAIN;
+
+    public ICollection<MediaVariant> Variants { get; set; } = new List<MediaVariant>();
 }

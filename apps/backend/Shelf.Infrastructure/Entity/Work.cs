@@ -30,9 +30,6 @@ public class Work
     public WorkVisibility Visibility { get; set; } = WorkVisibility.PUBLIC;
     public WorkRating Rating { get; set; } = WorkRating.GENERAL;
 
-    public Guid? CoverFileId { get; set; }
-    public File? CoverFile { get; set; }
-
     public DateTimeOffset? ReleasedAt { get; set; } = null;
 
     public DateTimeOffset CreatedAt { get; set; } = DateTimeOffset.UtcNow;
@@ -40,7 +37,8 @@ public class Work
     public DateTimeOffset? DeletedAt { get; set; } = null;
 
 
-    public ICollection<MediaItem> MediaItems { get; set; } = new List<MediaItem>();
+    public ICollection<MediaAsset> MediaAssets { get; set; } = new List<MediaAsset>();
+    public ICollection<WorkCover> Covers { get; set; } = new List<WorkCover>();
     public ICollection<SeriesWorks> SeriesWorks { get; set; } = new List<SeriesWorks>();
     public ICollection<WorkTag> WorkTags { get; set; } = new List<WorkTag>();
     public ICollection<WorkCredit> WorkCredits { get; set; } = new List<WorkCredit>();

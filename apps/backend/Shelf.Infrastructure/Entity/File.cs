@@ -30,12 +30,19 @@ public class File
 
     public int? DurationInSeconds { get; set; } = null;
     public string Codec { get; set; } = string.Empty;
+    public int? Bitrate { get; set; }
+
+    public decimal? FrameRate { get; set; }
+    public int? AudioSampleRate { get; set; }
+    public int? AudioChannels { get; set; }
+
 
     public DateTimeOffset CreatedAt { get; set; } = DateTimeOffset.UtcNow;
     public DateTimeOffset UpdatedAt { get; set; } = DateTimeOffset.UtcNow;
     public DateTimeOffset? DeletedAt { get; set; } = null;
 
-    public ICollection<MediaItem> MediaItems { get; set; } = new List<MediaItem>();
-    public ICollection<Work> CoverWorks { get; set; } = new List<Work>();
-    public ICollection<Party> CoverParties { get; set; } = new List<Party>();
+    public ICollection<MediaVariant> MediaVariants { get; set; } = new List<MediaVariant>();
+
+    public ICollection<WorkCover> WorkCovers { get; set; } = new List<WorkCover>();
+    public ICollection<PartyCover> PartyCovers { get; set; } = new List<PartyCover>();
 }
