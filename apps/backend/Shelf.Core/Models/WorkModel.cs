@@ -31,6 +31,7 @@ public sealed class MediaItemCreationRequest
     public string? FileHash { get; set; } //blake3
     public string Description { get; set; } = string.Empty;
     public required MediaItemType MediaType { get; set; }
+    public string TextContent { get; set; } = string.Empty;
     public required string MimeType { get; set; }
     public required long FileSize { get; set; }
     public required int Order { get; set; }

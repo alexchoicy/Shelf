@@ -42,6 +42,8 @@ public sealed class MediaItemCreationRequest
     [JsonConverter(typeof(JsonStringEnumConverter))]
     public required MediaItemType MediaType { get; init; }
 
+    public string TextContent { get; init; } = string.Empty;
+
     public required string MimeType { get; init; } = string.Empty;
     public required long FileSize { get; init; }
     public required int Order { get; init; }

@@ -13,6 +13,8 @@ public class MediaAsset
     public required Guid WorkId { get; set; }
     public Work? Work { get; set; }
 
+    public string TextContent { get; set; } = string.Empty;
+
     public string Description { get; set; } = string.Empty;
     public MediaItemType MediaType { get; set; }
     public int Order { get; set; } = 0;

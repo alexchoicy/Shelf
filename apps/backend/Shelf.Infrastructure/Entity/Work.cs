@@ -23,6 +23,8 @@ public class Work
 
     public bool IsAI { get; set; } = false;
 
+    // Turnout I think wether use magic Markdown style, Asset(Text) -> Asset(Img) -> ...
+    //looks better
     public string NovelContent { get; set; } = string.Empty;
 
     public WorkMedium Medium { get; set; }
