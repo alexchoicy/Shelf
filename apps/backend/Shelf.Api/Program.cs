@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
+using Shelf.Api.ExceptionHandlers;
 using Shelf.Core.Enum;
 using Shelf.Infrastructure;
 using Shelf.Infrastructure.Data;
@@ -10,6 +11,18 @@ using Shelf.Infrastructure.Data.Seed;
 using Shelf.Infrastructure.Entity;
 
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Services.AddProblemDetails(configure =>
+{
+    configure.CustomizeProblemDetails = options =>
+    {
+        options.ProblemDetails.Extensions.TryAdd("traceId",
+            options.HttpContext.TraceIdentifier);
+        options.ProblemDetails.Extensions.TryAdd("timestamp",
+            DateTime.UtcNow);
+    };
+});
+builder.Services.AddExceptionHandler<GlobalExceptionHandler>();
 
 // Add services to the container.
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
@@ -105,6 +118,8 @@ if (app.Environment.IsDevelopment())
         await PartySeed.SeedAsync(dbContext);
     }
 }
+
+app.UseExceptionHandler();
 
 app.UseCors();
 
