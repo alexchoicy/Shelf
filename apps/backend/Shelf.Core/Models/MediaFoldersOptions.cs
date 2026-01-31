@@ -6,5 +6,6 @@ public sealed class MediaFoldersOptions
     public string Transcode { get; init; } = "media/transcode";
     public string Thumbnail { get; init; } = "media/thumbnail";
     public string Preview { get; init; } = "media/preview";
+    public string Cover { get; init; } = "media/cover";
     public string Other { get; init; } = "other";
 }

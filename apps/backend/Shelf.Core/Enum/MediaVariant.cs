@@ -5,5 +5,6 @@ public enum MediaVariantPurpose
     ORIGINAL,
     TRANSCODE,
     THUMBNAIL,
-    PREVIEW
+    PREVIEW,
+    COVER,
 }

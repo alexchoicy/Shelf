@@ -2,9 +2,12 @@ using System.Text;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using Shelf.Api.ExceptionHandlers;
 using Shelf.Core.Enum;
+using Shelf.Core.Models;
+using Shelf.Core.StorageServices;
 using Shelf.Infrastructure;
 using Shelf.Infrastructure.Data;
 using Shelf.Infrastructure.Data.Seed;
@@ -128,5 +131,18 @@ app.UseAuthorization();
 
 app.MapControllers();
 
+// Trigger Storage Interface
+using (var scope = app.Services.CreateScope())
+{
+    scope.ServiceProvider.GetRequiredService<IStorageProvider>();
+
+    StorageOptions storageOptions = scope.ServiceProvider.GetRequiredService<IOptions<StorageOptions>>().Value;
+
+    if (string.Equals(storageOptions.DefaultProvider, "Local", StringComparison.OrdinalIgnoreCase))
+    {
+        // Trigger bro to create folders
+        ILocalStorageService localStorageService = scope.ServiceProvider.GetRequiredService<ILocalStorageService>();
+    }
+}
 
 app.Run();

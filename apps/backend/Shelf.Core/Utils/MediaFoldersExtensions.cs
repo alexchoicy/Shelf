@@ -12,6 +12,7 @@ public static class MediaFoldersExtensions
             MediaVariantPurpose.TRANSCODE => folders.Transcode,
             MediaVariantPurpose.THUMBNAIL => folders.Thumbnail,
             MediaVariantPurpose.PREVIEW => folders.Preview,
+            MediaVariantPurpose.COVER => folders.Cover,
             _ => folders.Other
         };
 }

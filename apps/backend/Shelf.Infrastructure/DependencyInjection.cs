@@ -13,7 +13,7 @@ using Shelf.Core.Models;
 using Shelf.Core.StorageServices;
 using Shelf.Infrastructure.Services.Work;
 using Shelf.Infrastructure.Services.Party;
-using Shelf.Infrastructure.Storage.Local;
+using Shelf.Infrastructure.Services.Storage.Local;
 
 namespace Shelf.Infrastructure;
 
@@ -62,9 +62,12 @@ public static class DependencyInjection
             var providerName = options.DefaultProvider.Trim();
 
             if (string.Equals(providerName, "Local", StringComparison.OrdinalIgnoreCase))
+            {
                 return sp.GetRequiredService<LocalStorageProvider>();
 
-            return sp.GetRequiredService<LocalStorageProvider>();
+            }
+
+            throw new InvalidOperationException($"Unsupported storage provider: '{providerName}'.");
         });
 
         services.AddScoped<ILocalStorageService, LocalStorageService>();
