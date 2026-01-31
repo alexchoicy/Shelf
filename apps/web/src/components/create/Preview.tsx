@@ -1,5 +1,4 @@
 import { ImageIcon } from "lucide-react";
-import { useMemo } from "react";
 import type { components } from "@/data/APIschema";
 import { Badge } from "../shadcn/badge";
 
@@ -9,27 +8,17 @@ type Props = {
 	FormInfo: FormRequest;
 	uploadItems: Record<string, File>;
 	partySearchList: PartyList[];
+	cover?: Blob | null;
+	setCover?: (cover: Blob | null) => void;
 };
 
-export default function Preview({
-	FormInfo,
-	uploadItems,
-	partySearchList,
-}: Props) {
-	const imgUrl = useMemo(
-		() =>
-			FormInfo.coverHash && uploadItems[FormInfo.coverHash]
-				? URL.createObjectURL(uploadItems[FormInfo.coverHash])
-				: null,
-		[FormInfo.coverHash, uploadItems],
-	);
-
+export default function Preview({ FormInfo, partySearchList, cover }: Props) {
 	return (
 		<div className="flex gap-5">
 			<div className="relative w-80 aspect-video shrink-0 rounded-lg flex items-center justify-center bg-muted shadow-lg overflow-hidden">
-				{imgUrl ? (
+				{cover ? (
 					<img
-						src={imgUrl}
+						src={URL.createObjectURL(cover)}
 						alt="Cover Preview"
 						className="w-full h-full object-cover"
 					/>
@@ -46,9 +35,20 @@ export default function Preview({
 				</h3>
 				<p className="mt-1 text-sm text-muted-foreground">
 					by{" "}
-					{partySearchList.find(
-						(party) => party.partyId === FormInfo.primaryPartyId,
-					)?.partyName || FormInfo.primaryPartyId}
+					{FormInfo.credits &&
+						FormInfo.credits.length > 0 &&
+						FormInfo.credits.map((credit, idx) => {
+							const party = partySearchList.find(
+								(p) => p.partyId === credit.partyId,
+							);
+							return (
+								<span key={`${credit.partyId}-${idx}`}>
+									{party?.partyName || "Unknown"}
+									{credit.role ? ` (${String(credit.role).toLowerCase()})` : ""}
+									{idx < FormInfo.credits.length - 1 ? ", " : ""}
+								</span>
+							);
+						})}
 				</p>
 			</div>
 

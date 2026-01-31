@@ -16,7 +16,10 @@ public class MediaVariant
     public required Guid FileId { get; set; }
     public File? File { get; set; }
     public int Priority { get; set; } = 0;
-    public required bool IsDefault { get; set; }
+    //TODO: This will be set while doing the upload, becuase we need to make sure the uploaded files
+    // are playable before setting default.
+    // Source can be web unplayable formats/codec
+    public bool IsDefault { get; set; } = false;
 
     public required MediaVariantPurpose Purpose { get; set; } = MediaVariantPurpose.ORIGINAL;
     public string VariantKey { get; set; } = string.Empty;

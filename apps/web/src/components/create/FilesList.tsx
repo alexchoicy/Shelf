@@ -13,8 +13,9 @@ import {
 	sortableKeyboardCoordinates,
 	verticalListSortingStrategy,
 } from "@dnd-kit/sortable";
-import { useCallback, useMemo } from "react";
+import { useCallback, useMemo, useState } from "react";
 import type { components } from "@/data/APIschema";
+import { cropTo16x9 } from "@/lib/imageCrop";
 import { Separator } from "../shadcn/separator";
 import FileItem from "./FileItem";
 import UploadDropZone from "./UploadDropZone";
@@ -27,6 +28,8 @@ type Props = {
 	setFormData: (data: FormRequest) => void;
 	uploadItems: Record<string, File>;
 	setUploadItems: (items: Record<string, File>) => void;
+	cover: Blob | null;
+	setCover: (cover: Blob | null) => void;
 };
 
 //TODO: on server side, it will reorder again, "Extra" will be in the end of ordering.
@@ -41,7 +44,12 @@ export default function FilesList({
 	setFormData,
 	uploadItems,
 	setUploadItems,
+	cover,
+	setCover,
 }: Props) {
+	const [currentCoverSourceHash, setCurrentCoverSourceHash] =
+		useState<string>("");
+
 	const sensors = useSensors(
 		useSensor(PointerSensor),
 		useSensor(KeyboardSensor, {
@@ -77,13 +85,19 @@ export default function FilesList({
 	};
 
 	const handleToggleCover = useCallback(
-		(fileHash: string) => {
-			setFormData({
-				...FormInfo,
-				coverHash: FormInfo.coverHash === fileHash ? "" : fileHash,
-			});
+		async (fileHash: string) => {
+			setCurrentCoverSourceHash(fileHash);
+			const file = uploadItems[fileHash];
+			if (file && setCover) {
+				try {
+					const croppedBlob = await cropTo16x9(file);
+					setCover(croppedBlob);
+				} catch (error) {
+					console.error("Failed to crop image:", error);
+				}
+			}
 		},
-		[FormInfo, setFormData],
+		[uploadItems, setCover],
 	);
 
 	const handleToggleKind = useCallback(
@@ -99,6 +113,7 @@ export default function FilesList({
 		[FormInfo, setFormData],
 	);
 
+	// The type errors is fine
 	return (
 		<div className="flex flex-col h-full p-5 space-y-5">
 			<UploadDropZone
@@ -106,6 +121,10 @@ export default function FilesList({
 				setFormData={setFormData}
 				uploadItems={uploadItems}
 				setUploadItems={setUploadItems}
+				cover={cover}
+				setCover={setCover}
+				currentCoverSourceHash={currentCoverSourceHash}
+				setCurrentCoverSourceHash={setCurrentCoverSourceHash}
 			/>
 			<Separator />
 			<DndContext
@@ -120,7 +139,7 @@ export default function FilesList({
 								key={item.fileHash}
 								mediaItem={item}
 								uploadItem={uploadItems[item.fileHash]}
-								CurrentCoverHash={FormInfo.coverHash}
+								currentCoverSourceHash={currentCoverSourceHash}
 								onToggleCover={handleToggleCover}
 								onToggleKind={(kind) => handleToggleKind(item.fileHash, kind)}
 							/>

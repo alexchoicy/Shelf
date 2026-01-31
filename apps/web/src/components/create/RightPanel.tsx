@@ -8,6 +8,8 @@ type Props = {
 	setFormData: (data: FormRequest) => void;
 	uploadItems: Record<string, File>;
 	setUploadItems: (items: Record<string, File>) => void;
+	cover: Blob | null;
+	setCover: (cover: Blob | null) => void;
 };
 
 export default function RightPanel({
@@ -15,6 +17,8 @@ export default function RightPanel({
 	setFormData,
 	uploadItems,
 	setUploadItems,
+	cover,
+	setCover,
 }: Props) {
 	return (
 		<div className="flex w-1/2 flex-col bg-muted/20">
@@ -30,6 +34,8 @@ export default function RightPanel({
 					setFormData={setFormData}
 					uploadItems={uploadItems}
 					setUploadItems={setUploadItems}
+					cover={cover}
+					setCover={setCover}
 				/>
 			</div>
 		</div>

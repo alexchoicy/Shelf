@@ -10,6 +10,10 @@ type Props = {
 	setFormData: (data: FormRequest) => void;
 	uploadItems: Record<string, File>;
 	partySearchList: PartyList[];
+	cover?: Blob | null;
+	setCover?: (cover: Blob | null) => void;
+	selectedArtistsCredit: PartyList[];
+	setSelectedArtistsCredit: (valies: PartyList[]) => void;
 };
 
 export default function LeftPanel({
@@ -17,6 +21,10 @@ export default function LeftPanel({
 	setFormData,
 	uploadItems,
 	partySearchList,
+	selectedArtistsCredit,
+	setSelectedArtistsCredit,
+	cover,
+	setCover,
 }: Props) {
 	return (
 		<div className="flex w-1/2 border-border border-r flex-col">
@@ -25,6 +33,8 @@ export default function LeftPanel({
 					FormInfo={FormInfo}
 					uploadItems={uploadItems}
 					partySearchList={partySearchList}
+					cover={cover}
+					setCover={setCover}
 				/>
 			</div>
 			<div className="flex-1 flex-col gap-4 overflow-hidden">
@@ -32,6 +42,8 @@ export default function LeftPanel({
 					FormInfo={FormInfo}
 					setFormData={setFormData}
 					partySearchList={partySearchList}
+					selectedArtistsCredit={selectedArtistsCredit}
+					setSelectedArtistsCredit={setSelectedArtistsCredit}
 				/>
 			</div>
 		</div>

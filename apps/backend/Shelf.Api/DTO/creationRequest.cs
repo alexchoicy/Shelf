@@ -3,12 +3,19 @@ using Shelf.Core.Enum;
 
 namespace Shelf.Api.DTO;
 
+public sealed class WorkCreationCredit
+{
+    public required Guid PartyId { get; init; }
+    [JsonConverter(typeof(JsonStringEnumConverter))]
+    public required WorkCreditRole Role { get; init; }
+}
+
 public sealed class WorkCreationRequest
 {
     public required string Title { get; init; } = string.Empty;
     public string Description { get; init; } = string.Empty;
 
-    public required string PrimaryPartyId { get; init; } = string.Empty;
+    public required List<WorkCreationCredit> Credits { get; init; } = new();
 
     public string NovelContent { get; init; } = string.Empty;
 
@@ -26,7 +33,7 @@ public sealed class WorkCreationRequest
     public required bool IsAI { get; init; } = false;
     public DateTimeOffset? ReleasedAt { get; init; } = null;
 
-    public string? CoverHash { get; init; } = null;
+    public string? CoverHash { get; init; }
     public string? CoverMimeType { get; init; }
     public int? CoverWidth { get; init; }
     public int? CoverHeight { get; init; }
@@ -36,7 +43,7 @@ public sealed class WorkCreationRequest
 
 public sealed class MediaItemCreationRequest
 {
-    public string? FileHash { get; init; } // blake3
+    public required string FileHash { get; init; } // blake3 or nothing if text
     public string Description { get; init; } = string.Empty;
 
     [JsonConverter(typeof(JsonStringEnumConverter))]

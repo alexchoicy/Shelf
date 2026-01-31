@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useDropzone } from "react-dropzone";
 import type { components } from "@/data/APIschema";
 import { hashFileStream } from "@/lib/fileHash";
+import { cropTo16x9 } from "@/lib/imageCrop";
 import { cn } from "@/lib/utils";
 
 type FormRequest = components["schemas"]["WorkCreationRequest"];
@@ -11,6 +12,10 @@ type Props = {
 	setFormData: (data: FormRequest) => void;
 	uploadItems: Record<string, File>;
 	setUploadItems: (items: Record<string, File>) => void;
+	cover: Blob | null;
+	setCover: (cover: Blob | null) => void;
+	currentCoverSourceHash: string;
+	setCurrentCoverSourceHash: (hash: string) => void;
 };
 
 export default function UploadDropZone({
@@ -18,6 +23,9 @@ export default function UploadDropZone({
 	setFormData,
 	uploadItems,
 	setUploadItems,
+	cover,
+	setCover,
+	setCurrentCoverSourceHash,
 }: Props) {
 	const [isProcessing, setIsProcessing] = useState(false);
 
@@ -48,10 +56,24 @@ export default function UploadDropZone({
 			if (newMediaItems.length > 0) {
 				setFormData({
 					...FormInfo,
-					coverHash: FormInfo.coverHash || newMediaItems[0].fileHash,
 					mediaItems: [...FormInfo.mediaItems, ...newMediaItems],
 				});
 			}
+
+			const firstFileHash = Object.keys(newItems)[0];
+			const firstFile = newItems[firstFileHash];
+			// only set cover if it is image. Generated cover from video in backend.
+			if (!cover && firstFile.type.startsWith("image/")) {
+				try {
+					const croppedBlob = await cropTo16x9(firstFile);
+					setCover(croppedBlob);
+				} catch (error) {
+					console.error("Failed to crop image:", error);
+				}
+
+				setCurrentCoverSourceHash(firstFileHash);
+			}
+
 			setUploadItems(newItems);
 		} catch (error) {
 			console.error("Error processing files:", error);

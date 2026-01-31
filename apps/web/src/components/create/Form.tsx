@@ -1,29 +1,14 @@
 import { format } from "date-fns";
-import {
-	startTransition,
-	useEffect,
-	useId,
-	useMemo,
-	useRef,
-	useState,
-} from "react";
+import { useId, useState } from "react";
 import type { components } from "@/data/APIschema";
 import {
 	getWorkTypesByMedium,
 	WORK_MEDIUM_OPTIONS,
 	WORK_RATING_OPTIONS,
 	WORK_VISIBILITY_OPTIONS,
-} from "@/lib/enums";
+} from "@/enums/WorkEnums";
 import { Button } from "../shadcn/button";
 import { Calendar } from "../shadcn/calendar";
-import {
-	Combobox,
-	ComboboxContent,
-	ComboboxEmpty,
-	ComboboxInput,
-	ComboboxItem,
-	ComboboxList,
-} from "../shadcn/combobox";
 import {
 	Field,
 	FieldContent,
@@ -44,6 +29,7 @@ import {
 } from "../shadcn/select";
 import { Switch } from "../shadcn/switch";
 import { Textarea } from "../shadcn/textarea";
+import PartyCombobox from "./partyCombobox";
 
 type FormRequest = components["schemas"]["WorkCreationRequest"];
 type PartyList = components["schemas"]["PartyListDto"];
@@ -52,15 +38,18 @@ type Props = {
 	FormInfo: FormRequest;
 	setFormData: (data: FormRequest) => void;
 	partySearchList: PartyList[];
+	selectedArtistsCredit: PartyList[];
+	setSelectedArtistsCredit: (valies: PartyList[]) => void;
 };
 
 export default function Form({
 	FormInfo,
 	setFormData,
 	partySearchList,
+	selectedArtistsCredit,
+	setSelectedArtistsCredit,
 }: Props) {
 	const title = useId();
-	const primaryParty = useId();
 	const workType = useId();
 	const medium = useId();
 	const rating = useId();
@@ -68,46 +57,6 @@ export default function Form({
 	const isAI = useId();
 	const description = useId();
 	const releasedAt = useId();
-
-	const [searchResults, setSearchResults] = useState<PartyList[]>(
-		() => partySearchList,
-	);
-	const [selectedValue, setSelectedValue] = useState<PartyList | null>(null);
-	const [searchValue, setSearchValue] = useState("");
-	const abortControllerRef = useRef<AbortController | null>(null);
-
-	useEffect(() => {
-		if (searchValue === "") {
-			setSearchResults(partySearchList);
-		}
-	}, [partySearchList, searchValue]);
-
-	const items = useMemo(() => {
-		if (
-			!selectedValue ||
-			searchResults.some((user) => user.partyId === selectedValue.partyId)
-		) {
-			return searchResults;
-		}
-
-		return [...searchResults, selectedValue];
-	}, [searchResults, selectedValue]);
-
-	const normalize = (str: string) => str.trim().toLocaleUpperCase("en-US");
-
-	const searchParty = async (query: string): Promise<PartyList[]> => {
-		const normalizedQuery = normalize(query);
-
-		const filter = partySearchList.filter(
-			(party) =>
-				party.partyNormalizedName.includes(normalizedQuery) ||
-				party.partyAliases.some((alias) =>
-					alias.aliasNormalizedName.includes(normalizedQuery),
-				),
-		);
-
-		return filter;
-	};
 
 	const [date, setDate] = useState<Date>();
 
@@ -127,67 +76,6 @@ export default function Form({
 									setFormData({ ...FormInfo, title: e.target.value })
 								}
 							/>
-						</Field>
-						<Field>
-							<FieldLabel htmlFor={primaryParty}>Primary Party</FieldLabel>
-							<Combobox
-								items={items}
-								filter={null}
-								itemToStringLabel={(party: PartyList) => party.partyName}
-								onOpenChangeComplete={(open) => {
-									if (!open && selectedValue) {
-										setSearchResults([selectedValue]);
-									}
-								}}
-								onValueChange={(nextSelectedValue: PartyList | null) => {
-									setSelectedValue(nextSelectedValue);
-									setFormData({
-										...FormInfo,
-										primaryPartyId: nextSelectedValue
-											? nextSelectedValue.partyId
-											: "",
-									});
-									setSearchValue("");
-								}}
-								onInputValueChange={(nextSearchValue, { reason }) => {
-									setSearchValue(nextSearchValue);
-
-									const controller = new AbortController();
-									abortControllerRef.current?.abort();
-									abortControllerRef.current = controller;
-
-									if (nextSearchValue === "") {
-										setSearchResults(partySearchList);
-										return;
-									}
-									if (reason === "item-press") {
-										return;
-									}
-									startTransition(async () => {
-										const result = await searchParty(nextSearchValue);
-
-										if (controller.signal.aborted) {
-											return;
-										}
-
-										startTransition(() => {
-											setSearchResults(result);
-										});
-									});
-								}}
-							>
-								<ComboboxInput placeholder="Select a Party" id={primaryParty} />
-								<ComboboxContent>
-									<ComboboxEmpty>No parties found.</ComboboxEmpty>
-									<ComboboxList>
-										{(item: PartyList) => (
-											<ComboboxItem key={item.partyId} value={item}>
-												{item.partyName}
-											</ComboboxItem>
-										)}
-									</ComboboxList>
-								</ComboboxContent>
-							</Combobox>
 						</Field>
 						<Field>
 							<FieldLabel htmlFor={description}>Description</FieldLabel>
@@ -231,6 +119,20 @@ export default function Form({
 									/>
 								</PopoverContent>
 							</Popover>
+						</Field>
+					</FieldGroup>
+				</FieldSet>
+				<FieldSeparator />
+				<FieldSet>
+					<FieldLegend>Credits</FieldLegend>
+					<FieldGroup>
+						<Field>
+							<FieldLabel>Artists</FieldLabel>
+							<PartyCombobox
+								parties={partySearchList}
+								selectedValues={selectedArtistsCredit}
+								setSelectedValues={setSelectedArtistsCredit}
+							/>
 						</Field>
 					</FieldGroup>
 				</FieldSet>

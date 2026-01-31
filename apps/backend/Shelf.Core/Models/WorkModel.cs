@@ -2,12 +2,19 @@ using Shelf.Core.Enum;
 
 namespace Shelf.Core.Models;
 
+public sealed class WorkCreationCredit
+{
+    public required Guid PartyId { get; init; }
+
+    public required WorkCreditRole Role { get; init; }
+}
+
 public sealed class WorkCreationRequest
 {
     public required string Title { get; set; }
     public string Description { get; set; } = string.Empty;
 
-    public string PrimaryPartyId { get; set; } = string.Empty;
+    public required List<WorkCreationCredit> Credits { get; init; } = new();
 
     public bool IsAI { get; set; } = false;
     public string NovelContent { get; set; } = string.Empty;
@@ -22,6 +29,7 @@ public sealed class WorkCreationRequest
     public string? CoverMimeType { get; set; }
     public int? CoverWidth { get; set; }
     public int? CoverHeight { get; set; }
+    public long? CoverFileSize { get; set; }
 
     public List<MediaItemCreationRequest> MediaItems { get; set; } = new();
 }

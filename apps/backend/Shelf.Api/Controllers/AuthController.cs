@@ -56,6 +56,14 @@ public class AuthController : ControllerBase
         });
     }
 
+    [HttpPost("logout")]
+    [Authorize]
+    public ActionResult Logout()
+    {
+        Response.Cookies.Delete(AuthCookieName);
+        return Ok();
+    }
+
     [HttpGet]
     [Authorize]
     public ActionResult<string> GetProtectedResource()

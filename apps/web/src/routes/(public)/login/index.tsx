@@ -56,8 +56,6 @@ function RouteComponent() {
 				...prev,
 				errorMap: { onSubmit: [{ message: "Invalid username or password" }] },
 			}));
-
-			console.log(form.getFieldMeta("password"));
 		},
 	});
 

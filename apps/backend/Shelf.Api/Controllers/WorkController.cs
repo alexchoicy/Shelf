@@ -1,4 +1,5 @@
 using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Shelf.Core.Services;
@@ -18,13 +19,17 @@ public class WorkController : ControllerBase
     [ProducesResponseType(typeof(DTO.WorkCreationResponse), StatusCodes.Status200OK)]
     public async Task<ActionResult<DTO.WorkCreationResponse>> Create([FromBody] DTO.WorkCreationRequest request)
     {
-        string userId = User.Claims.FirstOrDefault(c => c.Type == JwtRegisteredClaimNames.NameId)?.Value!;
+        string userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value!;
 
         Core.Models.WorkCreationRequest requestMapped = new()
         {
             Title = request.Title,
             Description = request.Description,
-            PrimaryPartyId = request.PrimaryPartyId,
+            Credits = request.Credits.Select(c => new Core.Models.WorkCreationCredit
+            {
+                PartyId = c.PartyId,
+                Role = c.Role
+            }).ToList(),
             NovelContent = request.NovelContent,
             Medium = request.Medium,
             Type = request.Type,

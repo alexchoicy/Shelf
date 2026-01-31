@@ -2,6 +2,7 @@ import { useQuery } from "@tanstack/react-query";
 import { createFileRoute, Outlet } from "@tanstack/react-router";
 import { Sidebar } from "@/components/Sidebar";
 import { SidebarProvider } from "@/components/shadcn/sidebar";
+import { Toaster } from "@/components/shadcn/sonner";
 import { authQueries } from "@/lib/queries/auth.queries";
 import { meQueries } from "@/lib/queries/me.queries";
 
@@ -28,6 +29,7 @@ function RouteComponent() {
 		<SidebarProvider>
 			<Sidebar />
 			<Outlet />
+			<Toaster />
 		</SidebarProvider>
 	);
 }

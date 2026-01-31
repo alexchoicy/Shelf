@@ -1,7 +1,7 @@
-using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using Microsoft.EntityFrameworkCore;
 using Shelf.Core.Enum;
+using Shelf.Infrastructure.Extensions;
 
 
 namespace Shelf.Infrastructure.Entity;
@@ -18,7 +18,7 @@ public class Party
     public string NormalizedName
     {
         get => _normalizedName;
-        set => _normalizedName = value.Normalize();
+        set => _normalizedName = StringExtensions.Normalize(value);
     }
 
     public required PartyType Type { get; set; } = PartyType.INDIVIDUAL;

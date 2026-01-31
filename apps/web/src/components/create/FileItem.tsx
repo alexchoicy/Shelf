@@ -24,7 +24,7 @@ type MediaItem = components["schemas"]["MediaItemCreationRequest"];
 type MediaItemKind = components["schemas"]["MediaItemKind"];
 
 type Props = {
-	CurrentCoverHash: string;
+	currentCoverSourceHash: string;
 	onToggleCover: (fileHash: string) => void;
 	mediaItem: MediaItem;
 	uploadItem: File | undefined;
@@ -32,7 +32,7 @@ type Props = {
 };
 
 function FileItem({
-	CurrentCoverHash,
+	currentCoverSourceHash,
 	onToggleCover,
 	mediaItem,
 	uploadItem,
@@ -103,20 +103,22 @@ function FileItem({
 
 					<Button
 						variant={
-							CurrentCoverHash === mediaItem.fileHash ? "default" : "outline"
+							currentCoverSourceHash === mediaItem.fileHash
+								? "default"
+								: "outline"
 						}
 						size="icon"
-						onClick={() => onToggleCover(mediaItem.fileHash)}
+						onClick={() => onToggleCover(currentCoverSourceHash)}
 						className="shrink-0"
 						title={
-							CurrentCoverHash === mediaItem.fileHash
+							currentCoverSourceHash === mediaItem.fileHash
 								? "Remove as cover"
 								: "Set as cover"
 						}
-						disabled={mediaItem.fileHash === CurrentCoverHash}
+						disabled={mediaItem.fileHash === currentCoverSourceHash}
 					>
 						<Star
-							className={`h-4 w-4 ${CurrentCoverHash === mediaItem.fileHash ? "fill-current" : ""}`}
+							className={`h-4 w-4 ${currentCoverSourceHash === mediaItem.fileHash ? "fill-current" : ""}`}
 						/>
 					</Button>
 
