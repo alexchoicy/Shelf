@@ -17,10 +17,5 @@ public class WorkCreditConfiguration : IEntityTypeConfiguration<WorkCredit>
             .WithMany(party => party.WorkCredits)
             .HasForeignKey(credit => credit.PartyId)
             .OnDelete(DeleteBehavior.Cascade);
-
-        builder.HasOne(credit => credit.CreditRole)
-            .WithMany(role => role.WorkCredits)
-            .HasForeignKey(credit => credit.CreditRoleId)
-            .OnDelete(DeleteBehavior.Cascade);
     }
 }

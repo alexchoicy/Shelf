@@ -1,6 +1,6 @@
 # Create Migrations
 ```
-dotnet ef migrations add init --project Shelf.Infrastructure --startup-project Shelf.API
+dotnet ef migrations add init --project Shelf.Infrastructure --startup-project Shelf.Api
 ```
 
 

@@ -1,6 +1,7 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using Microsoft.EntityFrameworkCore;
+using Shelf.Core.Enum;
 
 namespace Shelf.Infrastructure.Entity;
 
@@ -17,8 +18,8 @@ public class WorkCredit
 
     public required Guid PartyId { get; set; }
     public Party? Party { get; set; }
-    public int CreditRoleId { get; set; }
-    public CreditRole? CreditRole { get; set; }
+
+    public required WorkCreditRole Role { get; set; }
 
     public DateTimeOffset CreatedAt { get; set; } = DateTimeOffset.UtcNow;
     public DateTimeOffset UpdatedAt { get; set; } = DateTimeOffset.UtcNow;

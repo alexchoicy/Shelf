@@ -12,7 +12,6 @@ public class AppDbContext : IdentityDbContext<User>
     {
     }
 
-    public DbSet<CreditRole> CreditRoles { get; set; }
     public DbSet<Entity.File> Files { get; set; }
     public DbSet<MediaVariant> MediaVariants { get; set; }
     public DbSet<MediaAsset> MediaAssets { get; set; }

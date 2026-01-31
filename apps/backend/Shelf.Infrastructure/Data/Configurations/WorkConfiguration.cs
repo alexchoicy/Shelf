@@ -12,10 +12,5 @@ public class WorkConfiguration : IEntityTypeConfiguration<Work>
             .WithMany(user => user.UploadedWorks)
             .HasForeignKey(work => work.UploaderId)
             .OnDelete(DeleteBehavior.Cascade);
-
-        builder.HasOne(work => work.PrimaryParty)
-            .WithMany(party => party.PrimaryWorks)
-            .HasForeignKey(work => work.PrimaryPartyId)
-            .OnDelete(DeleteBehavior.SetNull);
     }
 }

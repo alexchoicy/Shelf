@@ -1,4 +1,3 @@
-using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using Microsoft.EntityFrameworkCore;
 using Shelf.Core.Enum;
@@ -15,17 +14,10 @@ public class Work
     public required string UploaderId { get; set; }
     public User Uploader { get; set; } = default!;
 
-    public Guid? PrimaryPartyId { get; set; }
-    public Party? PrimaryParty { get; set; }
-
     public required string Title { get; set; } = string.Empty;
     public string Description { get; set; } = string.Empty;
 
     public bool IsAI { get; set; } = false;
-
-    // Turnout I think wether use magic Markdown style, Asset(Text) -> Asset(Img) -> ...
-    //looks better
-    public string NovelContent { get; set; } = string.Empty;
 
     public WorkMedium Medium { get; set; }
     public WorkType Type { get; set; }

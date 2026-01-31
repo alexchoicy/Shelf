@@ -4,5 +4,6 @@ public enum PartyType
 {
     INDIVIDUAL,
     GROUP,
-    ORGANIZATION
+    ORGANIZATION,
+    STUDIO,
 }
