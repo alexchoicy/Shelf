@@ -39,7 +39,7 @@ type Props = {
 	setFormData: (data: FormRequest) => void;
 	partySearchList: PartyList[];
 	selectedArtistsCredit: PartyList[];
-	setSelectedArtistsCredit: (valies: PartyList[]) => void;
+	setSelectedArtistsCredit: React.Dispatch<React.SetStateAction<PartyList[]>>;
 };
 
 export default function Form({
@@ -264,7 +264,6 @@ export default function Form({
 					</FieldGroup>
 				</FieldSet>
 				<FieldSeparator />
-				<FieldSet></FieldSet>
 			</FieldGroup>
 		</div>
 	);

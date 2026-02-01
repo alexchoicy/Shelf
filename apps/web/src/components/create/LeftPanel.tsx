@@ -13,7 +13,7 @@ type Props = {
 	cover?: Blob | null;
 	setCover?: (cover: Blob | null) => void;
 	selectedArtistsCredit: PartyList[];
-	setSelectedArtistsCredit: (valies: PartyList[]) => void;
+	setSelectedArtistsCredit: React.Dispatch<React.SetStateAction<PartyList[]>>;
 };
 
 export default function LeftPanel({
