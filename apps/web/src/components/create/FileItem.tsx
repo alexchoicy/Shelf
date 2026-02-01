@@ -28,7 +28,7 @@ type Props = {
 	onToggleCover: (fileHash: string) => void;
 	mediaItem: MediaItem;
 	uploadItem: File | undefined;
-	onToggleKind: (kind: MediaItemKind) => void;
+	onToggleKind: (fileHash: string, kind: MediaItemKind) => void;
 };
 
 function FileItem({
@@ -108,7 +108,7 @@ function FileItem({
 								: "outline"
 						}
 						size="icon"
-						onClick={() => onToggleCover(currentCoverSourceHash)}
+						onClick={() => onToggleCover(mediaItem.fileHash)}
 						className="shrink-0"
 						title={
 							currentCoverSourceHash === mediaItem.fileHash
@@ -124,7 +124,9 @@ function FileItem({
 
 					<Select
 						value={mediaItem.kind}
-						onValueChange={(value) => onToggleKind(value as MediaItemKind)}
+						onValueChange={(value) =>
+							onToggleKind(mediaItem.fileHash, value as MediaItemKind)
+						}
 					>
 						<SelectTrigger className="w-24">
 							<SelectValue />

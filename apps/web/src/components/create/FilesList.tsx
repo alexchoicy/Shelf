@@ -88,7 +88,7 @@ export default function FilesList({
 		async (fileHash: string) => {
 			setCurrentCoverSourceHash(fileHash);
 			const file = uploadItems[fileHash];
-			if (file && setCover) {
+			if (file) {
 				try {
 					const croppedBlob = await cropTo16x9(file);
 					setCover(croppedBlob);
@@ -141,7 +141,7 @@ export default function FilesList({
 								uploadItem={uploadItems[item.fileHash]}
 								currentCoverSourceHash={currentCoverSourceHash}
 								onToggleCover={handleToggleCover}
-								onToggleKind={(kind) => handleToggleKind(item.fileHash, kind)}
+								onToggleKind={handleToggleKind}
 							/>
 						))}
 					</div>

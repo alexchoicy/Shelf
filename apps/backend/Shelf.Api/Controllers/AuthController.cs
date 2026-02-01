@@ -41,7 +41,6 @@ public class AuthController : ControllerBase
             SameSite = SameSiteMode.Lax,
             Secure = true,
             IsEssential = true,
-            Expires = DateTimeOffset.UtcNow.AddYears(100) // IS FINE!
         });
 
         return Ok(new LoginResponseDto

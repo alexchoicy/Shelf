@@ -45,7 +45,7 @@ function RouteComponent() {
 
 	const { data, isLoading } = useQuery(partyQueries.getPartySearchList());
 
-	const { mutateAsync, isPending } = useMutation(workMutations.create);
+	const { mutateAsync } = useMutation(workMutations.create);
 
 	if (isLoading || !data) {
 		return <div>Loading...</div>;
@@ -67,24 +67,23 @@ function RouteComponent() {
 			return;
 		}
 
-		if (cover) {
-			formData.coverHash = await hashBlobStream(cover);
-			formData.coverMimeType = cover.type;
-			formData.coverWidth = 1920;
-			formData.coverHeight = 1680;
-		}
-
-		formData.credits = [];
-
-		selectedArtistsCredit.forEach((party) => {
-			formData.credits.push({
+		const payload: FormRequest = {
+			...formData,
+			credits: selectedArtistsCredit.map((party) => ({
 				partyId: party.partyId,
 				role: "ARTIST",
-			});
-		});
+			})),
+		};
+
+		if (cover) {
+			payload.coverHash = await hashBlobStream(cover);
+			payload.coverMimeType = cover.type;
+			payload.coverWidth = 1920;
+			payload.coverHeight = 1080;
+		}
 
 		try {
-			const result = await mutateAsync(formData);
+			const result = await mutateAsync(payload);
 			toast.success("Work created successfully!");
 			console.log("Created work:", result);
 		} catch (error) {
@@ -102,7 +101,7 @@ function RouteComponent() {
 							Create Work
 						</h1>
 						<p className="text-sm text-muted-foreground">
-							{"Add a new work to your library"}
+							Add a new work to your library
 						</p>
 					</div>
 					<Button onClick={handleSave} size="lg" className="gap-2">

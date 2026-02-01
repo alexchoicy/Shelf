@@ -1,4 +1,5 @@
 import { ImageIcon } from "lucide-react";
+import { useEffect, useState } from "react";
 import type { components } from "@/data/APIschema";
 import { Badge } from "../shadcn/badge";
 
@@ -13,12 +14,23 @@ type Props = {
 };
 
 export default function Preview({ FormInfo, partySearchList, cover }: Props) {
+	const [imgUrl, setImgUrl] = useState<string | undefined>();
+	useEffect(() => {
+		if (!cover) {
+			setImgUrl(undefined);
+			return;
+		}
+		const url = URL.createObjectURL(cover);
+		setImgUrl(url);
+		return () => URL.revokeObjectURL(url);
+	}, [cover]);
+
 	return (
 		<div className="flex gap-5">
 			<div className="relative w-80 aspect-video shrink-0 rounded-lg flex items-center justify-center bg-muted shadow-lg overflow-hidden">
-				{cover ? (
+				{imgUrl ? (
 					<img
-						src={URL.createObjectURL(cover)}
+						src={imgUrl}
 						alt="Cover Preview"
 						className="w-full h-full object-cover"
 					/>
