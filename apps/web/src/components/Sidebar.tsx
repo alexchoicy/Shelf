@@ -11,7 +11,6 @@ import {
 	SidebarGroupContent,
 	SidebarHeader,
 	SidebarMenu,
-	SidebarMenuAction,
 	SidebarMenuButton,
 	SidebarMenuItem,
 	SidebarMenuSub,

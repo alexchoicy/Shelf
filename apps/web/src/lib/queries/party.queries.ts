@@ -18,3 +18,20 @@ export const partyQueries = {
 			},
 		}),
 };
+
+export const partyMutations = {
+	create: {
+		mutationFn: async (data: components["schemas"]["CreatePartyRequest"]) => {
+			const result = await $APIFetch<
+				components["schemas"]["CreatePartyResponse"]
+			>("/parties", {
+				method: "POST",
+				body: JSON.stringify(data),
+			});
+			if (!result.ok) {
+				throw new Error("Failed to create party");
+			}
+			return result.data;
+		},
+	},
+};

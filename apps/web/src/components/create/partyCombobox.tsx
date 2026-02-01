@@ -1,5 +1,16 @@
-import { startTransition, useEffect, useMemo, useRef, useState } from "react";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import {
+	startTransition,
+	useEffect,
+	useId,
+	useMemo,
+	useRef,
+	useState,
+} from "react";
+import { toast } from "sonner";
 import type { components } from "@/data/APIschema";
+import { PARTY_TYPE_OPTIONS } from "@/enums/PartyEnums";
+import { partyMutations } from "@/lib/queries/party.queries";
 import { Button } from "../shadcn/button";
 import {
 	Combobox,
@@ -21,8 +32,17 @@ import {
 	DialogHeader,
 	DialogTitle,
 } from "../shadcn/dialog";
+import { Field, FieldGroup } from "../shadcn/field";
 import { Input } from "../shadcn/input";
 import { Label } from "../shadcn/label";
+import {
+	Select,
+	SelectContent,
+	SelectGroup,
+	SelectItem,
+	SelectTrigger,
+	SelectValue,
+} from "../shadcn/select";
 
 type PartyList = components["schemas"]["PartyListDto"];
 
@@ -40,7 +60,7 @@ type CreatablePartyItem = {
 type PartyItem = PartyList | CreatablePartyItem;
 
 function isCreatable(item: PartyItem): item is CreatablePartyItem {
-	return (item as any).type === "create";
+	return (item as CreatablePartyItem).type === "create";
 }
 
 export default function PartyCombobox({
@@ -59,6 +79,7 @@ export default function PartyCombobox({
 	const pendingQueryRef = useRef("");
 	const createInputRef = useRef<HTMLInputElement | null>(null);
 	const comboboxInputRef = useRef<HTMLInputElement | null>(null);
+	const partyTypeRef = useRef<components["schemas"]["PartyType"]>("INDIVIDUAL");
 
 	useEffect(() => {
 		if (searchValue === "") {
@@ -156,11 +177,35 @@ export default function PartyCombobox({
 		return items;
 	}, [items, trimmed, exactExists]);
 
-	const handleCreateSave = () => {
+	const { mutateAsync } = useMutation(partyMutations.create);
+	const queryClient = useQueryClient();
+
+	const handleCreateSave = async () => {
 		const input = createInputRef.current || comboboxInputRef.current;
 		const value = input ? input.value.trim() : "";
+		if (value === "") {
+			return;
+		}
+
+		const payload: components["schemas"]["CreatePartyRequest"] = {
+			name: value,
+			partyType: partyTypeRef.current,
+		};
+
+		try {
+			const result = await mutateAsync(payload);
+			toast.success("Party created successfully!");
+			console.log("Created Party:", result);
+			queryClient.invalidateQueries({ queryKey: ["parties", "searchList"] });
+			setOpenDialog(false);
+			setSearchValue("");
+		} catch (error) {
+			toast.error("Failed to create Party");
+			console.error("Error creating Party:", error);
+		}
 	};
 
+	const newPartyInput = useId();
 	return (
 		<>
 			<Combobox
@@ -259,18 +304,42 @@ export default function PartyCombobox({
 						<DialogTitle>Create Party</DialogTitle>
 					</DialogHeader>
 
-					<div className="flex items-center gap-2">
-						<div className="grid flex-1 gap-2">
-							<Label htmlFor="name" className="sr-only">
+					<FieldGroup>
+						<Field>
+							<Label htmlFor={newPartyInput} className="sr-only">
 								Name
 							</Label>
 							<Input
-								id="name"
+								id={newPartyInput}
 								ref={createInputRef}
 								defaultValue={pendingQueryRef.current}
 							/>
-						</div>
-					</div>
+						</Field>
+						<Field>
+							<Label htmlFor="type">Party Type</Label>
+							<Select
+								onValueChange={(value) => {
+									partyTypeRef.current =
+										value as components["schemas"]["PartyType"];
+								}}
+								defaultValue="INDIVIDUAL"
+							>
+								<SelectTrigger>
+									<SelectValue></SelectValue>
+								</SelectTrigger>
+								<SelectContent>
+									<SelectGroup>
+										{PARTY_TYPE_OPTIONS.map((item) => (
+											<SelectItem key={item.value} value={item.value}>
+												{item.label}
+											</SelectItem>
+										))}
+									</SelectGroup>
+								</SelectContent>
+							</Select>
+						</Field>
+					</FieldGroup>
+
 					<DialogFooter>
 						<DialogClose render={<Button variant="outline">Cancel</Button>} />
 						<Button type="submit" onClick={handleCreateSave}>

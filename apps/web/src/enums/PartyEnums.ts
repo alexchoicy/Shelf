@@ -1,13 +1,15 @@
 import type { components } from "@/data/APIschema";
 
-type WorkCreditRole = components["schemas"]["WorkCreditRole"];
+type PartyType = components["schemas"]["PartyType"];
 
-export const WORK_CREDIT_ROLE: Record<WorkCreditRole, string> = {
-	ARTIST: "Artist",
+export const PARTY_TYPE: Record<PartyType, string> = {
+	INDIVIDUAL: "Individual",
+	GROUP: "Group",
+	ORGANIZATION: "Organization",
 	STUDIO: "Studio",
 } as const;
 
-export const WORK_CREDIT_ROLE_OPTIONS = Object.entries(WORK_CREDIT_ROLE).map(
+export const PARTY_TYPE_OPTIONS = Object.entries(PARTY_TYPE).map(
 	([value, label]) => ({
 		value,
 		label,
