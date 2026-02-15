@@ -11,12 +11,3 @@ public sealed class CreatePartyRequest
     [JsonConverter(typeof(JsonStringEnumConverter))]
     public required PartyType PartyType { get; init; }
 }
-
-
-public sealed class CreatePartyResponse
-{
-    public required Guid PartyId { get; init; }
-    public required string PartyName { get; init; }
-    public required PartyType PartyType { get; init; }
-    public required DateTimeOffset CreatedAt { get; init; }
-}

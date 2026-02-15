@@ -4,20 +4,19 @@ using Shelf.Core.Entity;
 
 namespace Shelf.Infrastructure.Data.Seed;
 
-public class PartySeed
+public class SeriesSeed
 {
     public static async Task SeedAsync(DbContext context)
     {
-        Party unknownParty = new()
+        Series unknownSeries = new()
         {
             Id = Guid.Parse("00000000-0000-0000-0000-000000000001"),
-            Name = "Unknown",
-            Type = PartyType.Individual,
+            Name = "Original",
         };
 
-        if (!await context.Set<Party>().AnyAsync(p => p.Id == unknownParty.Id))
+        if (!await context.Set<Series>().AnyAsync(p => p.Id == unknownSeries.Id))
         {
-            await context.Set<Party>().AddAsync(unknownParty);
+            await context.Set<Series>().AddAsync(unknownSeries);
             await context.SaveChangesAsync();
         }
     }

@@ -10,10 +10,8 @@ using Shelf.Infrastructure.Data;
 using Shelf.Infrastructure.Entity;
 using Shelf.Infrastructure.Services;
 using Shelf.Core.Models;
-using Shelf.Core.StorageServices;
-using Shelf.Infrastructure.Services.Work;
 using Shelf.Infrastructure.Services.Party;
-using Shelf.Infrastructure.Services.Storage.Local;
+using Shelf.Infrastructure.Services.Work;
 
 namespace Shelf.Infrastructure;
 
@@ -51,26 +49,8 @@ public static class DependencyInjection
         services.AddScoped<IWorkService, WorkService>();
         services.AddScoped<IPartyService, PartyService>();
 
-        services.AddSingleton<LocalStorageProvider>();
-
         services.Configure<StorageOptions>(configuration.GetSection("Storage"));
         services.AddSingleton(sp => sp.GetRequiredService<IOptions<StorageOptions>>().Value.MediaFolders);
-
-        services.AddSingleton<IStorageProvider>(sp =>
-        {
-            var options = sp.GetRequiredService<IOptions<StorageOptions>>().Value;
-            var providerName = options.DefaultProvider.Trim();
-
-            if (string.Equals(providerName, "Local", StringComparison.OrdinalIgnoreCase))
-            {
-                return sp.GetRequiredService<LocalStorageProvider>();
-
-            }
-
-            throw new InvalidOperationException($"Unsupported storage provider: '{providerName}'.");
-        });
-
-        services.AddScoped<ILocalStorageService, LocalStorageService>();
 
         return services;
     }

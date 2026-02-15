@@ -10,26 +10,24 @@ namespace Shelf.Api.Controllers;
 
 [ApiController]
 [Route("parties")]
-public class PartiesController : ControllerBase
+public class PartiesController(IPartyService partyService) : ControllerBase
 {
-    private readonly IPartyService _partyService;
-
-    public PartiesController(IPartyService partyService) => _partyService = partyService;
+    private readonly IPartyService _partyService = partyService;
 
     // thinking to merge into /parties endpoint? with pagination?
     [HttpGet("list")]
     [AllowAnonymous]
-    [ProducesResponseType(typeof(IEnumerable<PartyListDto>), StatusCodes.Status200OK)]
-    public async Task<ActionResult<IEnumerable<PartyListDto>>> List()
+    [ProducesResponseType(typeof(IEnumerable<PartyListModel>), StatusCodes.Status200OK)]
+    public async Task<ActionResult<IEnumerable<PartyListModel>>> List()
     {
         var parties = await _partyService.GetAllForListAsync();
 
-        var dto = parties.Select(p => new PartyListDto
+        var dto = parties.Select(p => new PartyListModel
         {
             PartyId = p.PartyId,
             PartyName = p.PartyName,
             PartyNormalizedName = p.PartyNormalizedName,
-            PartyAliases = p.PartyAliases.Select(a => new PartyAliasDto
+            PartyAliases = p.PartyAliases.Select(a => new PartyAliasModel
             {
                 AliasName = a.AliasName,
                 AliasNormalizedName = a.AliasNormalizedName
@@ -39,28 +37,11 @@ public class PartiesController : ControllerBase
         return Ok(dto);
     }
 
-    [HttpGet("{id}")]
-    [AllowAnonymous]
-    [ProducesResponseType(typeof(DTO.CreatePartyResponse), StatusCodes.Status200OK)]
-    public async Task<ActionResult<DTO.CreatePartyResponse>> GetById(Guid id)
-    {
-        var result = await _partyService.GetByIdAsync(id);
-        if (result == null) return NotFound();
-
-        return Ok(new DTO.CreatePartyResponse
-        {
-            PartyId = result.PartyId,
-            PartyName = result.PartyName,
-            PartyType = result.PartyType,
-            CreatedAt = result.CreatedAt
-        });
-    }
-
     [HttpPost]
     [Authorize]
-    [ProducesResponseType(typeof(CreatePartyResponse), StatusCodes.Status201Created)]
+    [ProducesResponseType(StatusCodes.Status201Created)]
     [ProducesResponseType(StatusCodes.Status409Conflict)]
-    public async Task<ActionResult<DTO.CreatePartyResponse>> Create([FromBody] DTO.CreatePartyRequest request)
+    public async Task<ActionResult> Create([FromBody] DTO.CreatePartyRequest request)
     {
         if (!ModelState.IsValid) return BadRequest(ModelState);
 
@@ -73,16 +54,8 @@ public class PartiesController : ControllerBase
         };
 
 
-        PartyCreationResponse result = await _partyService.CreatePartyAsync(coreReq, userId);
+        await _partyService.CreatePartyAsync(coreReq, userId);
 
-        CreatePartyResponse response = new()
-        {
-            PartyId = result.PartyId,
-            PartyName = result.PartyName,
-            PartyType = result.PartyType,
-            CreatedAt = result.CreatedAt
-        };
-
-        return CreatedAtAction(nameof(GetById), new { id = response.PartyId }, response);
+        return Created();
     }
 }

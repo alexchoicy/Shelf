@@ -7,7 +7,6 @@ using Microsoft.IdentityModel.Tokens;
 using Shelf.Api.ExceptionHandlers;
 using Shelf.Core.Enum;
 using Shelf.Core.Models;
-using Shelf.Core.StorageServices;
 using Shelf.Infrastructure;
 using Shelf.Infrastructure.Data;
 using Shelf.Infrastructure.Data.Seed;
@@ -96,7 +95,6 @@ builder.Services.AddAuthorization(options =>
 });
 
 builder.Services.AddInfrastructure(builder.Configuration, builder.Environment);
-
 WebApplication app = builder.Build();
 
 if (app.Environment.IsDevelopment())
@@ -119,6 +117,8 @@ if (app.Environment.IsDevelopment())
         //optional later
         //Create a "Unknown" party for works without a known primary party
         await PartySeed.SeedAsync(dbContext);
+
+        await SeriesSeed.SeedAsync(dbContext);
     }
 }
 
@@ -130,19 +130,5 @@ app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
-
-// Trigger Storage Interface
-using (var scope = app.Services.CreateScope())
-{
-    scope.ServiceProvider.GetRequiredService<IStorageProvider>();
-
-    StorageOptions storageOptions = scope.ServiceProvider.GetRequiredService<IOptions<StorageOptions>>().Value;
-
-    if (string.Equals(storageOptions.DefaultProvider, "Local", StringComparison.OrdinalIgnoreCase))
-    {
-        // Trigger bro to create folders
-        ILocalStorageService localStorageService = scope.ServiceProvider.GetRequiredService<ILocalStorageService>();
-    }
-}
 
 app.Run();

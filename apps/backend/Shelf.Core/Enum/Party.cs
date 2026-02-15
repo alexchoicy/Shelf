@@ -2,8 +2,8 @@ namespace Shelf.Core.Enum;
 
 public enum PartyType
 {
-    INDIVIDUAL,
-    GROUP,
-    ORGANIZATION,
-    STUDIO,
+    Individual,
+    Group,
+    Organization,
+    Studio,
 }

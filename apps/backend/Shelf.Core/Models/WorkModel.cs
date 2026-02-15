@@ -16,13 +16,15 @@ public sealed class WorkCreationRequest
 
     public required List<WorkCreationCredit> Credits { get; init; } = new();
 
+    public List<Guid> CharacterIds { get; set; } = new();
+
     public bool IsAI { get; set; } = false;
     public string NovelContent { get; set; } = string.Empty;
 
     public WorkMedium Medium { get; set; }
     public WorkType Type { get; set; }
-    public WorkVisibility Visibility { get; set; } = WorkVisibility.PUBLIC;
-    public WorkRating Rating { get; set; } = WorkRating.GENERAL;
+    public WorkVisibility Visibility { get; set; } = WorkVisibility.Public;
+    public WorkRating Rating { get; set; } = WorkRating.General;
     public DateTimeOffset? ReleasedAt { get; set; } = null;
 
     public string? CoverHash { get; set; } //blake3
@@ -43,7 +45,7 @@ public sealed class MediaItemCreationRequest
     public required string MimeType { get; set; }
     public required long FileSize { get; set; }
     public required int Order { get; set; }
-    public required MediaItemKind Kind { get; set; } = MediaItemKind.MAIN;
+    public required MediaItemKind Kind { get; set; } = MediaItemKind.Main;
     public int? Width { get; set; }
     public int? Height { get; set; }
 }

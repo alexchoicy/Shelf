@@ -1,7 +1,16 @@
 namespace Shelf.Core.Enum;
 
-public enum FileLocation
+public enum FileProcessingStatus
 {
-    SYSTEM,
-    EXTERNAL
+    Pending,
+    Processing,
+    Completed,
+    Failed
+}
+
+public enum FileObjectVariant
+{
+    Original,
+    AV1Native,
+    AV11080P,
 }

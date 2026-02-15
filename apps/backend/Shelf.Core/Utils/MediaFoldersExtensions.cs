@@ -1,18 +1,18 @@
 using Shelf.Core.Enum;
 using Shelf.Core.Models;
 
-namespace Shelf.Infrastructure.Storage;
+namespace Shelf.Core.Utils;
 
 public static class MediaFoldersExtensions
 {
     public static string GetFolder(this MediaVariantPurpose variant, MediaFoldersOptions folders) =>
         variant switch
         {
-            MediaVariantPurpose.ORIGINAL => folders.Original,
-            MediaVariantPurpose.TRANSCODE => folders.Transcode,
-            MediaVariantPurpose.THUMBNAIL => folders.Thumbnail,
-            MediaVariantPurpose.PREVIEW => folders.Preview,
-            MediaVariantPurpose.COVER => folders.Cover,
+            MediaVariantPurpose.Original => folders.Original,
+            MediaVariantPurpose.Transcoded => folders.Transcode,
+            MediaVariantPurpose.Thumbnail => folders.Thumbnail,
+            MediaVariantPurpose.Preview => folders.Preview,
+            MediaVariantPurpose.Cover => folders.Cover,
             _ => folders.Other
         };
 }

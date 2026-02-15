@@ -15,11 +15,3 @@ public sealed class PartyCreationResponse
     public required PartyType PartyType { get; init; }
     public required DateTimeOffset CreatedAt { get; init; }
 }
-
-public sealed class PartyDetailModel
-{
-    public required Guid PartyId { get; init; }
-    public required string PartyName { get; init; }
-    public required PartyType PartyType { get; init; }
-    public required DateTimeOffset CreatedAt { get; init; }
-}

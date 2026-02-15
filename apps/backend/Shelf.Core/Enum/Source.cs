@@ -6,4 +6,7 @@ public enum SourceIconKey
     TWITTER,
     PIXIV,
     DANBOORU,
+    IWARA,
+    PATREON,
+    FANBOX
 }

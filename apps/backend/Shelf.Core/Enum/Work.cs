@@ -2,10 +2,10 @@ namespace Shelf.Core.Enum;
 
 public enum WorkMedium
 {
-    IMAGE,
-    VIDEO,
-    AUDIO,
-    TEXT
+    Image,
+    Video,
+    Audio,
+    Text,
 }
 
 
@@ -38,13 +38,13 @@ public enum WorkType
 
 public enum WorkVisibility
 {
-    PUBLIC,
-    HIDDEN,
+    Public,
+    Hidden,
 }
 
 public enum WorkRating
 {
-    GENERAL,
-    MATURE,
-    ADULT
+    General,
+    Mature,
+    Adult
 }

@@ -16,6 +16,7 @@ public sealed class WorkCreationRequest
     public string Description { get; init; } = string.Empty;
 
     public required List<WorkCreationCredit> Credits { get; init; } = new();
+    public required List<Guid> CharacterIds { get; init; } = new();
 
     public string NovelContent { get; init; } = string.Empty;
 
@@ -26,10 +27,10 @@ public sealed class WorkCreationRequest
     public required WorkType Type { get; init; }
 
     [JsonConverter(typeof(JsonStringEnumConverter))]
-    public required WorkVisibility Visibility { get; init; } = WorkVisibility.PUBLIC;
+    public required WorkVisibility Visibility { get; init; } = WorkVisibility.Public;
 
     [JsonConverter(typeof(JsonStringEnumConverter))]
-    public required WorkRating Rating { get; init; } = WorkRating.GENERAL;
+    public required WorkRating Rating { get; init; } = WorkRating.General;
     public required bool IsAI { get; init; } = false;
     public DateTimeOffset? ReleasedAt { get; init; } = null;
 
@@ -56,7 +57,7 @@ public sealed class MediaItemCreationRequest
     public required int Order { get; init; }
 
     [JsonConverter(typeof(JsonStringEnumConverter))]
-    public required MediaItemKind Kind { get; init; } = MediaItemKind.MAIN;
+    public required MediaItemKind Kind { get; init; } = MediaItemKind.Main;
 
     public int? Width { get; init; }
     public int? Height { get; init; }

@@ -1,6 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using Shelf.Infrastructure.Entity;
+using Shelf.Core.Entity;
 
 namespace Shelf.Infrastructure.Data.Configurations;
 
@@ -8,9 +8,16 @@ public class PartyAliasConfiguration : IEntityTypeConfiguration<PartyAlias>
 {
     public void Configure(EntityTypeBuilder<PartyAlias> builder)
     {
-        builder.HasOne(alias => alias.Party)
+        builder.ToTable("PartyAliases");
+
+        builder.HasKey(pAlias => pAlias.Id);
+
+        builder.Property(pAlias => pAlias.Id)
+            .ValueGeneratedOnAdd();
+
+        builder.HasOne(pAlias => pAlias.Party)
             .WithMany(party => party.Aliases)
-            .HasForeignKey(alias => alias.PartyId)
+            .HasForeignKey(pAlias => pAlias.PartyId)
             .OnDelete(DeleteBehavior.Cascade);
     }
 }

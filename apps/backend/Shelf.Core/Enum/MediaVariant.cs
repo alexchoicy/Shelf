@@ -2,9 +2,9 @@ namespace Shelf.Core.Enum;
 
 public enum MediaVariantPurpose
 {
-    ORIGINAL,
-    TRANSCODE,
-    THUMBNAIL,
-    PREVIEW,
-    COVER,
+    Original,
+    Transcoded,
+    Thumbnail,
+    Preview,
+    Cover,
 }
