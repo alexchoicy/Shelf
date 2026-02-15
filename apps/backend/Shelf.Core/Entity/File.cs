@@ -8,6 +8,9 @@ public class File
 
     // Since client blake3 is slow, i think we check dup with OriginalFileName + SizeInByte
     public string? Blake3Hash { get; set; }
+    // simple blake3 hash is first 5MB + last 5MB => blake3.
+    // If smaller to [File] [File] => blake3.
+    public string? SimpleBlake3Hash { get; set; }
 
     public FileProcessingStatus ProcessingStatus { get; set; } = FileProcessingStatus.Pending;
 

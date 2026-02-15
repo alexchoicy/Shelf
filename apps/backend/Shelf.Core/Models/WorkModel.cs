@@ -27,39 +27,33 @@ public sealed class WorkCreationRequest
     public WorkRating Rating { get; set; } = WorkRating.General;
     public DateTimeOffset? ReleasedAt { get; set; } = null;
 
-    public string? CoverHash { get; set; } //blake3
-    public string? CoverMimeType { get; set; }
-    public int? CoverWidth { get; set; }
-    public int? CoverHeight { get; set; }
-    public long? CoverFileSize { get; set; }
-
     public List<MediaItemCreationRequest> MediaItems { get; set; } = new();
 }
 
 public sealed class MediaItemCreationRequest
 {
-    public string? FileHash { get; set; } //blake3
+    public string? SimpleBlake3 { get; set; } //blake3
     public string Description { get; set; } = string.Empty;
     public required MediaItemType MediaType { get; set; }
     public string TextContent { get; set; } = string.Empty;
-    public required string MimeType { get; set; }
-    public required long FileSize { get; set; }
     public required int Order { get; set; }
     public required MediaItemKind Kind { get; set; } = MediaItemKind.Main;
-    public int? Width { get; set; }
-    public int? Height { get; set; }
+
+    public string? MimeType { get; set; }
+    public long? FileSize { get; set; }
+    public string? OriginalFileName { get; set; }
 }
 
 public sealed class WorkCreationResponse
 {
     public required Guid WorkId { get; set; }
-    public string? CoverUploadURL { get; set; }
+    public required string Title { get; set; }
     public required List<MediaItemUploadInfo> MediaItems { get; set; }
 }
 
 public sealed class MediaItemUploadInfo
 {
-    public required Guid MediaItemId { get; set; }
-    public required string FileHash { get; set; }
-    public required string UploadURL { get; set; }
+    public required string SimpleBlake3Id { get; init; }
+    public required string FileName { get; init; }
+    public required MultipartUploadInfo MultipartUploadInfo { get; init; }
 }

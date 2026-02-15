@@ -9,6 +9,7 @@ using Shelf.Core.Models;
 namespace Shelf.Api.Controllers;
 
 [ApiController]
+[Authorize]
 [Route("parties")]
 public class PartiesController(IPartyService partyService) : ControllerBase
 {
@@ -16,7 +17,6 @@ public class PartiesController(IPartyService partyService) : ControllerBase
 
     // thinking to merge into /parties endpoint? with pagination?
     [HttpGet("list")]
-    [AllowAnonymous]
     [ProducesResponseType(typeof(IEnumerable<PartyListModel>), StatusCodes.Status200OK)]
     public async Task<ActionResult<IEnumerable<PartyListModel>>> List()
     {
@@ -38,7 +38,6 @@ public class PartiesController(IPartyService partyService) : ControllerBase
     }
 
     [HttpPost]
-    [Authorize]
     [ProducesResponseType(StatusCodes.Status201Created)]
     [ProducesResponseType(StatusCodes.Status409Conflict)]
     public async Task<ActionResult> Create([FromBody] DTO.CreatePartyRequest request)
@@ -52,7 +51,6 @@ public class PartiesController(IPartyService partyService) : ControllerBase
             Name = request.Name,
             PartyType = request.PartyType
         };
-
 
         await _partyService.CreatePartyAsync(coreReq, userId);
 

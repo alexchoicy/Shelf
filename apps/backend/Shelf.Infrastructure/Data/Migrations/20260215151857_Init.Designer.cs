@@ -12,7 +12,7 @@ using Shelf.Infrastructure.Data;
 namespace Shelf.Infrastructure.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20260215110350_Init")]
+    [Migration("20260215151857_Init")]
     partial class Init
     {
         /// <inheritdoc />
@@ -189,6 +189,10 @@ namespace Shelf.Infrastructure.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
+                    b.Property<string>("NormalizedName")
+                        .IsRequired()
+                        .HasColumnType("text");
+
                     b.Property<Guid>("SeriesId")
                         .HasColumnType("uuid");
 
@@ -219,6 +223,10 @@ namespace Shelf.Infrastructure.Migrations
                         .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("NormalizedName")
                         .IsRequired()
                         .HasColumnType("text");
 
@@ -278,6 +286,9 @@ namespace Shelf.Infrastructure.Migrations
 
                     b.Property<int>("ProcessingStatus")
                         .HasColumnType("integer");
+
+                    b.Property<string>("SimpleBlake3Hash")
+                        .HasColumnType("text");
 
                     b.Property<long>("SizeInBytes")
                         .HasColumnType("bigint");
@@ -387,6 +398,10 @@ namespace Shelf.Infrastructure.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
+                    b.Property<string>("NormalizedName")
+                        .IsRequired()
+                        .HasColumnType("text");
+
                     b.Property<int>("Type")
                         .HasColumnType("integer");
 
@@ -450,6 +465,10 @@ namespace Shelf.Infrastructure.Migrations
                         .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("NormalizedName")
                         .IsRequired()
                         .HasColumnType("text");
 
@@ -517,6 +536,10 @@ namespace Shelf.Infrastructure.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
+                    b.Property<string>("NormalizedName")
+                        .IsRequired()
+                        .HasColumnType("text");
+
                     b.Property<DateTimeOffset>("UpdatedAt")
                         .HasColumnType("timestamp with time zone");
 
@@ -540,6 +563,10 @@ namespace Shelf.Infrastructure.Migrations
                         .HasColumnType("integer");
 
                     b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("NormalizedName")
                         .IsRequired()
                         .HasColumnType("text");
 

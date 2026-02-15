@@ -34,17 +34,12 @@ public sealed class WorkCreationRequest
     public required bool IsAI { get; init; } = false;
     public DateTimeOffset? ReleasedAt { get; init; } = null;
 
-    public string? CoverHash { get; init; }
-    public string? CoverMimeType { get; init; }
-    public int? CoverWidth { get; init; }
-    public int? CoverHeight { get; init; }
-
     public required List<MediaItemCreationRequest> MediaItems { get; init; } = new();
 }
 
 public sealed class MediaItemCreationRequest
 {
-    public required string FileHash { get; init; } // blake3 or nothing if text
+    public string? SimpleBlake3 { get; init; } // blake3 or nothing if text
     public string Description { get; init; } = string.Empty;
 
     [JsonConverter(typeof(JsonStringEnumConverter))]
@@ -52,30 +47,12 @@ public sealed class MediaItemCreationRequest
 
     public string TextContent { get; init; } = string.Empty;
 
-    public required string MimeType { get; init; } = string.Empty;
-    public required long FileSize { get; init; }
     public required int Order { get; init; }
+
+    public string? MimeType { get; init; }
+    public long? FileSize { get; init; }
+    public string? OriginalFileName { get; init; }
 
     [JsonConverter(typeof(JsonStringEnumConverter))]
     public required MediaItemKind Kind { get; init; } = MediaItemKind.Main;
-
-    public int? Width { get; init; }
-    public int? Height { get; init; }
-}
-
-
-
-
-public sealed class WorkCreationResponse
-{
-    public required Guid WorkId { get; init; }
-    public string? CoverUploadURL { get; init; }
-    public required List<MediaItemUploadInfo> MediaItems { get; init; } = new();
-}
-
-public sealed class MediaItemUploadInfo
-{
-    public required Guid MediaItemId { get; init; }
-    public required string FileHash { get; init; }
-    public required string UploadURL { get; init; }
 }

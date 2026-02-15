@@ -7,7 +7,7 @@ public class WorkCredit
 {
     public int Id { get; set; }
 
-    public required Guid WorkId { get; set; }
+    public Guid WorkId { get; set; }
     public Work? Work { get; set; }
 
     public required Guid PartyId { get; set; }

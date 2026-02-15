@@ -9,7 +9,7 @@ public class CharacterAlias
 
     public required string Name { get; set; }
 
-    public string NormalizedName = string.Empty;
+    public string NormalizedName { get; set; } = string.Empty;
 
     public DateTimeOffset CreatedAt { get; set; } = DateTimeOffset.UtcNow;
     public DateTimeOffset UpdatedAt { get; set; } = DateTimeOffset.UtcNow;

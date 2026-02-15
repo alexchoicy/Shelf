@@ -11,7 +11,7 @@ public class Source
     public required string Name { get; set; }
     public required string Url { get; set; }
 
-    public string NormalizedName = string.Empty;
+    public string NormalizedName { get; set; } = string.Empty;
 
     public SourceIconKey IconKey { get; set; } = SourceIconKey.GENERIC;
 

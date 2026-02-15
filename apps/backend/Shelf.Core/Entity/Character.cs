@@ -6,7 +6,7 @@ public class Character
 
     public required string Name { get; set; }
 
-    public string NormalizedName = string.Empty;
+    public string NormalizedName { get; set; } = string.Empty;
 
     public Guid? CreatorPartyId { get; set; } // for original
     public Party? CreatorParty { get; set; }

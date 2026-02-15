@@ -61,13 +61,24 @@ public class AppDbContext(DbContextOptions<AppDbContext> options) : IdentityDbCo
         return base.SaveChanges();
     }
 
+    public override int SaveChanges(bool acceptAllChangesOnSuccess)
+    {
+        NormalizeEntities();
+        return base.SaveChanges(acceptAllChangesOnSuccess);
+    }
+
     public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
     {
         NormalizeEntities();
         return base.SaveChangesAsync(cancellationToken);
     }
 
-
+    public override Task<int> SaveChangesAsync(bool acceptAllChangesOnSuccess,
+        CancellationToken cancellationToken = default)
+    {
+        NormalizeEntities();
+        return base.SaveChangesAsync(acceptAllChangesOnSuccess, cancellationToken);
+    }
 
     private void NormalizeEntities()
     {

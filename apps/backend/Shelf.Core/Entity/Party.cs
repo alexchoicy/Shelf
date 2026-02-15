@@ -8,7 +8,7 @@ public class Party
 
     public required string Name { get; set; }
 
-    public string NormalizedName = string.Empty;
+    public string NormalizedName { get; set; } = string.Empty;
 
     public required PartyType Type { get; set; } = PartyType.Individual;
 

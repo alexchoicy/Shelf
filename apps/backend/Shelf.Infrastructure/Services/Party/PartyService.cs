@@ -4,6 +4,7 @@ using Shelf.Core.Models;
 using Shelf.Core.Services;
 using Shelf.Infrastructure.Data;
 using Shelf.Core.Entity;
+using Shelf.Core.Utils;
 
 namespace Shelf.Infrastructure.Services.Party;
 
@@ -33,7 +34,7 @@ public class PartyService(AppDbContext db) : IPartyService
 
     public async Task<PartyCreationResponse> CreatePartyAsync(PartyCreationRequest request, string userId)
     {
-        string normalized = Extensions.StringExtensions.Normalize(request.Name);
+        string normalized = StringUtils.NormalizeString(request.Name);
         // I think it should not check aliases here, because they are possible different party
         bool exists = await _db.Parties.AnyAsync(p => p.NormalizedName == normalized);
         if (exists) throw new DuplicateEntityException("Party or alias with the same name");
