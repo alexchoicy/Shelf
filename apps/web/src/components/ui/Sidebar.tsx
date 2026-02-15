@@ -16,7 +16,7 @@ import {
 	SidebarMenuSub,
 	SidebarMenuSubButton,
 	SidebarMenuSubItem,
-} from "./shadcn/sidebar";
+} from "../shadcn/sidebar";
 
 type SidebarOptions = {
 	name: string;
@@ -49,22 +49,26 @@ export function Sidebar() {
 					<SidebarMenu>
 						{sidebarOptions.map((option) => (
 							<SidebarMenuItem key={option.name}>
-								<SidebarMenuButton asChild tooltip={option.name}>
-									<Link to={option.link}>
-										<option.icon />
-										<span>{option.name}</span>
-									</Link>
-								</SidebarMenuButton>
+								<SidebarMenuButton
+									render={
+										<Link to={option.link}>
+											<option.icon />
+											<span>{option.name}</span>
+										</Link>
+									}
+								></SidebarMenuButton>
 								{option.children && (
 									<SidebarMenuSub>
 										{option.children?.map((child) => (
 											<SidebarMenuSubItem key={child.name}>
-												<SidebarMenuSubButton asChild>
-													<Link to={child.link}>
-														<child.icon />
-														<span>{child.name}</span>
-													</Link>
-												</SidebarMenuSubButton>
+												<SidebarMenuSubButton
+													render={
+														<Link to={child.link}>
+															<child.icon />
+															<span>{child.name}</span>
+														</Link>
+													}
+												></SidebarMenuSubButton>
 											</SidebarMenuSubItem>
 										))}
 									</SidebarMenuSub>
@@ -77,14 +81,16 @@ export function Sidebar() {
 					<SidebarGroupContent>
 						<SidebarMenu>
 							<SidebarMenuItem>
-								<SidebarMenuButton asChild>
-									<Link to="/create">
-										<div className="w-full flex justify-center items-center gap-2">
-											<Plus />
-											<span>New Work</span>
-										</div>
-									</Link>
-								</SidebarMenuButton>
+								<SidebarMenuButton
+									render={
+										<Link to="/create">
+											<div className="w-full flex justify-center items-center gap-2">
+												<Plus />
+												<span>New Work</span>
+											</div>
+										</Link>
+									}
+								></SidebarMenuButton>
 							</SidebarMenuItem>
 						</SidebarMenu>
 					</SidebarGroupContent>
@@ -93,7 +99,7 @@ export function Sidebar() {
 			<SidebarFooter>
 				<SidebarMenu>
 					<SidebarMenuItem>
-						<SidebarMenuButton tooltip="Settings">
+						<SidebarMenuButton>
 							<Settings />
 							<span>Settings</span>
 						</SidebarMenuButton>

@@ -3,7 +3,7 @@ import { useDropzone } from "react-dropzone";
 import type { components } from "@/data/APIschema";
 import { hashFileStream } from "@/lib/fileHash";
 import { cropTo16x9 } from "@/lib/imageCrop";
-import { cn } from "@/lib/utils";
+import { cn } from "@/lib/utils/style";
 
 type FormRequest = components["schemas"]["WorkCreationRequest"];
 

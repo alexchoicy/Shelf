@@ -7,12 +7,11 @@ export const partyQueries = {
 		queryOptions({
 			queryKey: ["parties", "searchList"],
 			queryFn: async () => {
-				const result = await $APIFetch<components["schemas"]["PartyListDto"][]>(
-					"/parties/list",
-					{
-						method: "GET",
-					},
-				);
+				const result = await $APIFetch<
+					components["schemas"]["PartyListModel"][]
+				>("/parties/list", {
+					method: "GET",
+				});
 				if (!result.ok) return [];
 				return result.data;
 			},
@@ -22,16 +21,14 @@ export const partyQueries = {
 export const partyMutations = {
 	create: {
 		mutationFn: async (data: components["schemas"]["CreatePartyRequest"]) => {
-			const result = await $APIFetch<
-				components["schemas"]["CreatePartyResponse"]
-			>("/parties", {
+			const result = await $APIFetch("/parties", {
 				method: "POST",
 				body: JSON.stringify(data),
 			});
 			if (!result.ok) {
 				throw new Error("Failed to create party");
 			}
-			return result.data;
+			return result.ok;
 		},
 	},
 };

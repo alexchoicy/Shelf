@@ -1,8 +1,9 @@
 import { useQuery } from "@tanstack/react-query";
 import { createFileRoute, Outlet } from "@tanstack/react-router";
-import { Sidebar } from "@/components/Sidebar";
+import { Sidebar } from "@/components/ui/Sidebar";
 import { SidebarProvider } from "@/components/shadcn/sidebar";
 import { Toaster } from "@/components/shadcn/sonner";
+import { TooltipProvider } from "@/components/shadcn/tooltip";
 import { authQueries } from "@/lib/queries/auth.queries";
 import { meQueries } from "@/lib/queries/me.queries";
 
@@ -26,10 +27,12 @@ function RouteComponent() {
 	}
 
 	return (
-		<SidebarProvider>
-			<Sidebar />
-			<Outlet />
-			<Toaster />
-		</SidebarProvider>
+		<TooltipProvider>
+			<SidebarProvider>
+				<Sidebar />
+				<Outlet />
+				<Toaster />
+			</SidebarProvider>
+		</TooltipProvider>
 	);
 }

@@ -117,7 +117,44 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/source/{id}": {
+    "/characters/list": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "text/plain": components["schemas"]["CharacterListModel"][];
+                        "application/json": components["schemas"]["CharacterListModel"][];
+                        "text/json": components["schemas"]["CharacterListModel"][];
+                    };
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/characters": {
         parameters: {
             query?: never;
             header?: never;
@@ -130,36 +167,37 @@ export interface paths {
             parameters: {
                 query?: never;
                 header?: never;
-                path: {
-                    id: string;
-                };
+                path?: never;
                 cookie?: never;
             };
             requestBody: {
                 content: {
-                    "application/x-www-form-urlencoded": {
-                        ContentType?: string;
-                        ContentDisposition?: string;
-                        Headers?: {
-                            [key: string]: string[];
-                        };
-                        /** Format: int64 */
-                        Length?: number | string;
-                        Name?: string;
-                        FileName?: string;
-                    };
+                    "application/json": components["schemas"]["CreateCharacterRequest"];
+                    "text/json": components["schemas"]["CreateCharacterRequest"];
+                    "application/*+json": components["schemas"]["CreateCharacterRequest"];
                 };
             };
             responses: {
-                /** @description OK */
-                200: {
+                /** @description Created */
+                201: {
                     headers: {
                         [name: string]: unknown;
                     };
                     content?: never;
                 };
-                /** @description Bad Request */
-                400: {
+                /** @description Not Found */
+                404: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "text/plain": components["schemas"]["ProblemDetails"];
+                        "application/json": components["schemas"]["ProblemDetails"];
+                        "text/json": components["schemas"]["ProblemDetails"];
+                    };
+                };
+                /** @description Conflict */
+                409: {
                     headers: {
                         [name: string]: unknown;
                     };
@@ -247,48 +285,9 @@ export interface paths {
                         [name: string]: unknown;
                     };
                     content: {
-                        "text/plain": components["schemas"]["PartyListDto"][];
-                        "application/json": components["schemas"]["PartyListDto"][];
-                        "text/json": components["schemas"]["PartyListDto"][];
-                    };
-                };
-            };
-        };
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/parties/{id}": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path: {
-                    id: string;
-                };
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                /** @description OK */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "text/plain": components["schemas"]["CreatePartyResponse"];
-                        "application/json": components["schemas"]["CreatePartyResponse"];
-                        "text/json": components["schemas"]["CreatePartyResponse"];
+                        "text/plain": components["schemas"]["PartyListModel"][];
+                        "application/json": components["schemas"]["PartyListModel"][];
+                        "text/json": components["schemas"]["PartyListModel"][];
                     };
                 };
             };
@@ -330,11 +329,7 @@ export interface paths {
                     headers: {
                         [name: string]: unknown;
                     };
-                    content: {
-                        "text/plain": components["schemas"]["CreatePartyResponse"];
-                        "application/json": components["schemas"]["CreatePartyResponse"];
-                        "text/json": components["schemas"]["CreatePartyResponse"];
-                    };
+                    content?: never;
                 };
                 /** @description Conflict */
                 409: {
@@ -402,17 +397,31 @@ export interface paths {
 export type webhooks = Record<string, never>;
 export interface components {
     schemas: {
+        CharacterAliasModel: {
+            aliasName: string;
+            aliasNormalizedName: string;
+        };
+        CharacterListModel: {
+            /** Format: uuid */
+            characterId: string;
+            characterName: string;
+            characterNormalizedName: string;
+            /** Format: uuid */
+            seriesId: string;
+            /** Format: uuid */
+            creatorPartyId?: null | string;
+            characterAliases: components["schemas"]["CharacterAliasModel"][];
+        };
+        CreateCharacterRequest: {
+            name: string;
+            /** Format: uuid */
+            seriesId: string;
+            /** Format: uuid */
+            creatorPartyId?: null | string;
+        };
         CreatePartyRequest: {
             name: string;
             partyType: components["schemas"]["PartyType"];
-        };
-        CreatePartyResponse: {
-            /** Format: uuid */
-            partyId: string;
-            partyName: string;
-            partyType: components["schemas"]["PartyType"];
-            /** Format: date-time */
-            createdAt: string;
         };
         LoginRequestDto: {
             username: string;
@@ -423,44 +432,52 @@ export interface components {
             user: components["schemas"]["UserDto"];
         };
         MediaItemCreationRequest: {
-            fileHash: string;
+            simpleBlake3?: null | string;
             description?: string;
             mediaType: components["schemas"]["MediaItemType"];
             textContent?: string;
-            mimeType: string;
-            /** Format: int64 */
-            fileSize: number | string;
             /** Format: int32 */
             order: number | string;
+            mimeType?: null | string;
+            /** Format: int64 */
+            fileSize?: null | number | string;
+            originalFileName?: null | string;
             kind: components["schemas"]["MediaItemKind"];
-            /** Format: int32 */
-            width?: null | number | string;
-            /** Format: int32 */
-            height?: null | number | string;
         };
         /** @enum {unknown} */
-        MediaItemKind: "MAIN" | "EXTRA";
+        MediaItemKind: "Main" | "Extra";
         /** @enum {unknown} */
-        MediaItemType: "IMAGE" | "VIDEO" | "AUDIO" | "TEXT";
+        MediaItemType: "Image" | "Video" | "Audio" | "Text";
         MediaItemUploadInfo: {
-            /** Format: uuid */
-            mediaItemId: string;
-            fileHash: string;
-            uploadURL: string;
+            simpleBlake3Id: string;
+            fileName: string;
+            multipartUploadInfo: components["schemas"]["MultipartUploadInfo"];
         };
-        PartyAliasDto: {
+        MultipartUploadInfo: {
+            uploadId: string;
+            fileID: string;
+            /** Format: int64 */
+            partSizeInBytes: number | string;
+            parts: components["schemas"]["MultipartUploadPartInfo"][];
+        };
+        MultipartUploadPartInfo: {
+            /** Format: int32 */
+            partNumber: number | string;
+            url: string;
+        };
+        PartyAliasModel: {
             aliasName: string;
             aliasNormalizedName: string;
         };
-        PartyListDto: {
+        PartyListModel: {
             /** Format: uuid */
             partyId: string;
             partyName: string;
             partyNormalizedName: string;
-            partyAliases: components["schemas"]["PartyAliasDto"][];
+            partyAliases: components["schemas"]["PartyAliasModel"][];
         };
         /** @enum {unknown} */
-        PartyType: "INDIVIDUAL" | "GROUP" | "ORGANIZATION" | "STUDIO";
+        PartyType: "Individual" | "Group" | "Organization" | "Studio";
         ProblemDetails: {
             type?: null | string;
             title?: null | string;
@@ -483,6 +500,7 @@ export interface components {
             title: string;
             description?: string;
             credits: components["schemas"]["WorkCreationCredit"][];
+            characterIds: string[];
             novelContent?: string;
             medium: components["schemas"]["WorkMedium"];
             type: components["schemas"]["WorkType"];
@@ -491,30 +509,24 @@ export interface components {
             isAI: boolean;
             /** Format: date-time */
             releasedAt?: null | string;
-            coverHash?: null | string;
-            coverMimeType?: null | string;
-            /** Format: int32 */
-            coverWidth?: null | number | string;
-            /** Format: int32 */
-            coverHeight?: null | number | string;
             mediaItems: components["schemas"]["MediaItemCreationRequest"][];
         };
         WorkCreationResponse: {
             /** Format: uuid */
             workId: string;
-            coverUploadURL?: null | string;
+            title: string;
             mediaItems: components["schemas"]["MediaItemUploadInfo"][];
         };
         /** @enum {unknown} */
-        WorkCreditRole: "ARTIST" | "STUDIO";
+        WorkCreditRole: "Artist";
         /** @enum {unknown} */
-        WorkMedium: "IMAGE" | "VIDEO" | "AUDIO" | "TEXT";
+        WorkMedium: "Image" | "Video" | "Audio" | "Text";
         /** @enum {unknown} */
-        WorkRating: "GENERAL" | "MATURE" | "ADULT";
+        WorkRating: "General" | "Mature" | "Adult";
         /** @enum {unknown} */
         WorkType: "ILLUSTRATION" | "MANGA" | "WEBTOON" | "COMIC" | "PHOTOSET" | "ANIME" | "OVA" | "PMV" | "HMV" | "CONCERT" | "VIDEO" | "MUSIC" | "ASMR" | "NOVEL" | "LIGHT_NOVEL" | "TEXTONLY" | "PORN" | "JAV";
         /** @enum {unknown} */
-        WorkVisibility: "PUBLIC" | "HIDDEN";
+        WorkVisibility: "Public" | "Hidden";
     };
     responses: never;
     parameters: never;
